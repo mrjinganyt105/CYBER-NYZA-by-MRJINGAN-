@@ -2,450 +2,1292 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CYBER NYZA by MRJINGAN</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>CYBER NYZA Chat</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-<script type="module">
 
-import { initializeApp } from 
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import { 
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  orderBy,
-  onSnapshot
-} from 
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDG6dW07j-tfClCQ1o2B5GgyqBED1ZUx8s",
-  authDomain: "cyber-nyza-by-mrjingan-9d4c3.firebaseapp.com",
-  projectId: "cyber-nyza-by-mrjingan-9d4c3",
-  storageBucket: "cyber-nyza-by-mrjingan-9d4c3.firebasestorage.app",
-  messagingSenderId: "246846891948",
-  appId: "1:246846891948:web:ded9f6edb7ba6852ce3c09"
-};
-
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-
-// Connect Firestore
-const db = getFirestore(app);
-
-
-console.log("CYBER NYZA Firebase Connected 🔥");
-
-</script>
-
-body {
-    background: #050505;
-    color: white;
-    height: 100vh;
-    overflow: hidden;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
 }
 
-/* LOGIN SCREEN */
-
-#loginPage {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background:
-    radial-gradient(circle at top, #062b1b, #050505 60%);
+body{
+    background:#111b21;
+    color:white;
+    height:100vh;
+    overflow:hidden;
 }
 
-.login-box {
-    width: 90%;
-    max-width: 400px;
-    padding: 35px 25px;
-    border: 1px solid #00ff88;
-    border-radius: 20px;
-    background: rgba(10,10,10,0.95);
-    box-shadow: 0 0 30px rgba(0,255,136,0.25);
-    text-align: center;
+button{
+    cursor:pointer;
 }
 
-.logo {
-    font-size: 32px;
-    font-weight: bold;
-    color: #00ff88;
-    letter-spacing: 2px;
-    text-shadow: 0 0 15px #00ff88;
+/* LOGIN */
+
+#loginPage{
+    width:100%;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#111b21,#0b141a);
 }
 
-.by {
-    color: #aaa;
-    margin-top: 8px;
-    margin-bottom: 30px;
-    font-size: 12px;
+.loginBox{
+    width:90%;
+    max-width:400px;
+    background:#202c33;
+    padding:30px;
+    border-radius:15px;
+    text-align:center;
 }
 
-.login-box input {
-    width: 100%;
-    padding: 15px;
-    margin: 8px 0;
-    background: #111;
-    border: 1px solid #333;
-    border-radius: 10px;
-    color: white;
-    outline: none;
+.logo{
+    font-size:35px;
+    font-weight:bold;
+    color:#00a884;
+    margin-bottom:10px;
 }
 
-.login-box input:focus {
-    border-color: #00ff88;
+.loginBox p{
+    color:#aaa;
+    margin-bottom:25px;
 }
 
-.login-btn {
-    width: 100%;
-    padding: 15px;
-    margin-top: 15px;
-    border: none;
-    border-radius: 10px;
-    background: #00ff88;
-    color: black;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+.loginBox input{
+    width:100%;
+    padding:14px;
+    margin:8px 0;
+    border:none;
+    border-radius:8px;
+    background:#2a3942;
+    color:white;
+    font-size:16px;
 }
 
-/* CHAT APP */
-
-#chatPage {
-    display: none;
-    height: 100vh;
-    flex-direction: column;
+.loginBox button{
+    width:100%;
+    padding:14px;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+    background:#00a884;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
 }
 
-.header {
-    height: 70px;
-    background: #0b0b0b;
-    border-bottom: 1px solid #1d1d1d;
-    display: flex;
-    align-items: center;
-    padding: 0 18px;
-    justify-content: space-between;
+/* APP */
+
+#app{
+    display:none;
+    height:100vh;
 }
 
-.header-left {
-    display: flex;
-    align-items: center;
+.appHeader{
+    height:65px;
+    background:#202c33;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
 }
 
-.avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: #00ff88;
-    color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    margin-right: 12px;
+.appHeader h2{
+    color:#00a884;
 }
 
-.user-name {
-    font-size: 16px;
-    font-weight: bold;
+.headerButtons button{
+    background:#00a884;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    margin-left:5px;
+    border-radius:6px;
 }
 
-.status {
-    font-size: 11px;
-    color: #00ff88;
-    margin-top: 3px;
+/* MAIN */
+
+.main{
+    display:flex;
+    height:calc(100vh - 65px);
 }
 
-.cyber-title {
-    color: #00ff88;
-    font-size: 12px;
+/* SIDEBAR */
+
+.sidebar{
+    width:350px;
+    background:#111b21;
+    border-right:1px solid #2a3942;
+    display:flex;
+    flex-direction:column;
 }
 
-/* MESSAGES */
-
-.messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    background:
-    radial-gradient(circle at bottom, #062317, #050505 65%);
+.sidebarTop{
+    padding:15px;
+    border-bottom:1px solid #2a3942;
 }
 
-.message {
-    max-width: 75%;
-    padding: 12px 15px;
-    border-radius: 15px;
-    margin-bottom: 12px;
-    font-size: 14px;
-    line-height: 1.4;
-    word-wrap: break-word;
+.userInfo{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-.received {
-    background: #171717;
-    border: 1px solid #242424;
-    border-bottom-left-radius: 3px;
+.userInfo small{
+    color:#aaa;
 }
 
-.sent {
-    background: #00b85f;
-    color: black;
-    margin-left: auto;
-    border-bottom-right-radius: 3px;
-    font-weight: 500;
+.newButtons{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
 }
 
-.time {
-    font-size: 9px;
-    opacity: 0.7;
-    margin-top: 5px;
-    text-align: right;
+.newButtons button{
+    flex:1;
+    border:none;
+    padding:10px;
+    background:#2a3942;
+    color:white;
+    border-radius:6px;
 }
 
-/* INPUT */
-
-.chat-input {
-    display: flex;
-    padding: 12px;
-    background: #0b0b0b;
-    border-top: 1px solid #222;
-    gap: 10px;
+.chatList{
+    overflow-y:auto;
+    flex:1;
 }
 
-.chat-input input {
-    flex: 1;
-    border: none;
-    outline: none;
-    background: #151515;
-    color: white;
-    padding: 14px;
-    border-radius: 25px;
+.chatItem{
+    padding:15px;
+    border-bottom:1px solid #202c33;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-.send-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: none;
-    background: #00ff88;
-    color: black;
-    font-size: 20px;
-    cursor: pointer;
+.chatItem:hover{
+    background:#202c33;
+}
+
+.avatar{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#00a884;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+}
+
+.chatName{
+    font-size:16px;
+}
+
+/* CHAT AREA */
+
+.chatArea{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    background:#0b141a;
+}
+
+.emptyChat{
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    color:#8696a0;
+}
+
+.chatHeader{
+    height:65px;
+    background:#202c33;
+    display:none;
+    align-items:center;
+    padding:0 20px;
+}
+
+.messages{
+    flex:1;
+    overflow-y:auto;
+    padding:20px;
+    display:none;
+}
+
+.message{
+    max-width:70%;
+    padding:10px;
+    margin-bottom:10px;
+    border-radius:8px;
+    word-wrap:break-word;
+}
+
+.sent{
+    background:#005c4b;
+    margin-left:auto;
+}
+
+.received{
+    background:#202c33;
+}
+
+.sender{
+    font-size:11px;
+    color:#00a884;
+    margin-bottom:5px;
+}
+
+.messageTime{
+    font-size:10px;
+    color:#aaa;
+    text-align:right;
+    margin-top:4px;
+}
+
+.messageBox{
+    display:none;
+    padding:10px;
+    background:#202c33;
+    gap:10px;
+}
+
+.messageBox input{
+    flex:1;
+    padding:13px;
+    border:none;
+    border-radius:25px;
+    background:#2a3942;
+    color:white;
+    font-size:16px;
+}
+
+.messageBox button{
+    border:none;
+    padding:12px 20px;
+    border-radius:25px;
+    background:#00a884;
+    color:white;
 }
 
 /* MOBILE */
 
-@media (min-width: 700px) {
-    body {
-        background: #111;
+@media(max-width:700px){
+
+    .sidebar{
+        width:100%;
     }
 
-    #chatPage,
-    #loginPage {
-        max-width: 500px;
-        margin: auto;
-        border-left: 1px solid #222;
-        border-right: 1px solid #222;
+    .chatArea{
+        display:none;
     }
+
+    .main.chatOpen .sidebar{
+        display:none;
+    }
+
+    .main.chatOpen .chatArea{
+        display:flex;
+    }
+
 }
+
 </style>
+
 </head>
 
 <body>
+
 
 <!-- LOGIN PAGE -->
 
 <div id="loginPage">
 
-    <div class="login-box">
+<div class="loginBox">
 
-        <div class="logo">CYBER NYZA</div>
+<div class="logo">CYBER NYZA</div>
 
-        <div class="by">
-            REALTIME CHAT<br>
-            by MRJINGAN
-        </div>
+<p>Personal & Group Chat</p>
 
-        <input
-            type="text"
-            id="username"
-            placeholder="Enter your username"
-        >
+<input
+type="email"
+id="email"
+placeholder="Email Address"
+>
 
-        <input
-            type="password"
-            placeholder="Enter password"
-        >
+<input
+type="password"
+id="password"
+placeholder="Password"
+>
 
-        <button class="login-btn" onclick="login()">
-            ENTER CHAT
-        </button>
+<button onclick="login()">
+Login
+</button>
 
-    </div>
+<button onclick="signup()">
+Create Account
+</button>
+
+</div>
 
 </div>
 
 
-<!-- CHAT PAGE -->
+<!-- MAIN APP -->
 
-<div id="chatPage">
+<div id="app">
 
-    <div class="header">
+<div class="appHeader">
 
-        <div class="header-left">
+<h2>CYBER NYZA</h2>
 
-            <div class="avatar" id="avatar">
-                C
-            </div>
+<div class="headerButtons">
 
-            <div>
+<button onclick="logoutUser()">
+Logout
+</button>
 
-                <div class="user-name">
-                    CYBER NYZA USER
-                </div>
-
-                <div class="status">
-                    ● Online
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="cyber-title">
-            CYBER NYZA
-        </div>
-
-    </div>
-
-
-    <div class="messages" id="messages">
-
-        <div class="message received">
-            Welcome to CYBER NYZA 🔥
-            <div class="time">Now</div>
-        </div>
-
-        <div class="message received">
-            Secure Dark Cyber Chat 💬
-            <div class="time">Now</div>
-        </div>
-
-    </div>
-
-
-    <div class="chat-input">
-
-        <input
-            type="text"
-            id="messageInput"
-            placeholder="Type a message..."
-            onkeypress="handleKey(event)"
-        >
-
-        <button
-            class="send-btn"
-            onclick="sendMessage()"
-        >
-            ➤
-        </button>
-
-    </div>
+</div>
 
 </div>
 
 
-<script>
+<div class="main" id="main">
 
-let currentUser = "User";
+<!-- SIDEBAR -->
 
-function login() {
+<div class="sidebar">
 
-    const username =
-        document.getElementById("username").value.trim();
+<div class="sidebarTop">
 
-    if (username === "") {
-        alert("Please enter your username!");
-        return;
-    }
+<div class="userInfo">
 
-    currentUser = username;
+<div>
 
-    document.getElementById("loginPage").style.display = "none";
+<b id="currentUser">
+Loading...
+</b>
 
-    document.getElementById("chatPage").style.display = "flex";
+<br>
 
-    document.querySelector(".user-name").innerText =
-        currentUser;
+<small id="currentEmail"></small>
 
-    document.getElementById("avatar").innerText =
-        currentUser.charAt(0).toUpperCase();
+</div>
+
+</div>
+
+
+<div class="newButtons">
+
+<button onclick="newPersonalChat()">
++ Personal
+</button>
+
+<button onclick="newGroup()">
++ Group
+</button>
+
+</div>
+
+</div>
+
+
+<div
+class="chatList"
+id="chatList"
+>
+
+</div>
+
+</div>
+
+
+<!-- CHAT AREA -->
+
+<div class="chatArea">
+
+<div
+class="emptyChat"
+id="emptyChat"
+>
+
+<h2>CYBER NYZA</h2>
+
+<p>Select a chat to start messaging</p>
+
+</div>
+
+
+<div
+class="chatHeader"
+id="chatHeader"
+>
+
+<b id="chatTitle">
+Chat
+</b>
+
+</div>
+
+
+<div
+class="messages"
+id="messages"
+>
+
+</div>
+
+
+<div
+class="messageBox"
+id="messageBox"
+>
+
+<input
+id="messageInput"
+placeholder="Type a message..."
+onkeypress="checkEnter(event)"
+>
+
+<button onclick="sendMessage()">
+Send
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- FIREBASE -->
+
+<script type="module">
+
+import {
+initializeApp
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+import {
+
+getAuth,
+
+createUserWithEmailAndPassword,
+
+signInWithEmailAndPassword,
+
+signOut,
+
+onAuthStateChanged
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+import {
+
+getFirestore,
+
+collection,
+
+doc,
+
+setDoc,
+
+getDoc,
+
+getDocs,
+
+addDoc,
+
+query,
+
+where,
+
+onSnapshot,
+
+orderBy,
+
+serverTimestamp,
+
+updateDoc,
+
+arrayUnion
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
+/* FIREBASE CONFIG */
+
+const firebaseConfig = {
+
+apiKey:
+"AIzaSyDG6dW07j-tfClCQ1o2B5GgyqBED1ZUx8s",
+
+authDomain:
+"cyber-nyza-by-mrjingan-9d4c3.firebaseapp.com",
+
+projectId:
+"cyber-nyza-by-mrjingan-9d4c3",
+
+storageBucket:
+"cyber-nyza-by-mrjingan-9d4c3.firebasestorage.app",
+
+messagingSenderId:
+"246846891948",
+
+appId:
+"1:246846891948:web:ded9f6edb7ba6852ce3c09"
+
+};
+
+
+/* INITIALIZE */
+
+const app =
+initializeApp(firebaseConfig);
+
+const auth =
+getAuth(app);
+
+const db =
+getFirestore(app);
+
+
+/* VARIABLES */
+
+let currentUser = null;
+
+let activeChatId = null;
+
+let activeChatName = null;
+
+let unsubscribeMessages = null;
+
+let unsubscribeChats = null;
+
+
+
+/* SIGN UP */
+
+window.signup = async function(){
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+
+if(!email || !password){
+
+alert("Enter email and password");
+
+return;
+
 }
 
 
-function sendMessage() {
+try{
 
-    const input =
-        document.getElementById("messageInput");
+const result =
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
 
-    const text =
-        input.value.trim();
 
-    if (text === "") return;
+await setDoc(
+doc(db,"users",result.user.uid),
+{
 
-    const messages =
-        document.getElementById("messages");
+email:email,
 
-    const message =
-        document.createElement("div");
+uid:result.user.uid,
 
-    message.className =
-        "message sent";
+createdAt:
+serverTimestamp()
 
-    const now =
-        new Date();
+}
+);
 
-    const time =
-        now.toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit'
-        });
 
-    message.innerHTML =
-        text +
-        '<div class="time">' +
-        time +
-        '</div>';
+alert("Account created successfully!");
 
-    messages.appendChild(message);
+}
 
-    input.value = "";
+catch(error){
 
-    messages.scrollTop =
-        messages.scrollHeight;
+alert(error.message);
+
+}
+
+};
+
+
+
+/* LOGIN */
+
+window.login = async function(){
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+
+try{
+
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+}
+
+catch(error){
+
+alert(error.message);
+
+}
+
+};
+
+
+
+/* LOGOUT */
+
+window.logoutUser = async function(){
+
+await signOut(auth);
+
+};
+
+
+
+/* AUTH CHECK */
+
+onAuthStateChanged(
+auth,
+user=>{
+
+if(user){
+
+currentUser = user;
+
+document.getElementById(
+"loginPage"
+).style.display="none";
+
+
+document.getElementById(
+"app"
+).style.display="block";
+
+
+document.getElementById(
+"currentUser"
+).innerText=
+user.email.split("@")[0];
+
+
+document.getElementById(
+"currentEmail"
+).innerText=
+user.email;
+
+
+loadChats();
+
+}
+
+else{
+
+currentUser = null;
+
+document.getElementById(
+"loginPage"
+).style.display="flex";
+
+
+document.getElementById(
+"app"
+).style.display="none";
+
+}
+
+}
+);
+
+
+
+/* LOAD CHATS */
+
+function loadChats(){
+
+if(unsubscribeChats){
+
+unsubscribeChats();
+
 }
 
 
-function handleKey(event) {
+const q =
+query(
 
-    if (event.key === "Enter") {
-        sendMessage();
-    }
+collection(db,"chats"),
+
+where(
+"members",
+"array-contains",
+currentUser.uid
+)
+
+);
+
+
+unsubscribeChats =
+onSnapshot(
+q,
+snapshot=>{
+
+const chatList =
+document.getElementById("chatList");
+
+
+chatList.innerHTML="";
+
+
+snapshot.forEach(
+chatDoc=>{
+
+const data =
+chatDoc.data();
+
+
+let name =
+data.name || "Personal Chat";
+
+
+if(
+data.type === "personal"
+){
+
+const otherUser =
+data.memberEmails.find(
+email=>email !== currentUser.email
+);
+
+
+name =
+otherUser || "Personal Chat";
 
 }
+
+
+const item =
+document.createElement("div");
+
+
+item.className=
+"chatItem";
+
+
+item.onclick =
+()=>openChat(
+chatDoc.id,
+name
+);
+
+
+item.innerHTML=
+
+`
+
+<div class="avatar">
+${name.charAt(0).toUpperCase()}
+</div>
+
+<div class="chatName">
+${name}
+</div>
+
+`;
+
+
+chatList.appendChild(item);
+
+}
+
+);
+
+}
+
+);
+
+}
+
+
+
+/* NEW PERSONAL CHAT */
+
+window.newPersonalChat =
+async function(){
+
+const email =
+prompt(
+"Enter friend's email address:"
+);
+
+
+if(!email){
+
+return;
+
+}
+
+
+if(
+email === currentUser.email
+){
+
+alert("You cannot chat with yourself");
+
+return;
+
+}
+
+
+/* FIND USER */
+
+const q =
+query(
+
+collection(db,"users"),
+
+where(
+"email",
+"==",
+email
+)
+
+);
+
+
+const result =
+await getDocs(q);
+
+
+if(result.empty){
+
+alert(
+"User not found. Ask them to create a CYBER NYZA account first."
+);
+
+return;
+
+}
+
+
+const otherUser =
+result.docs[0].data();
+
+
+/* CREATE CHAT */
+
+const chatId =
+[currentUser.uid,otherUser.uid]
+.sort()
+.join("_");
+
+
+const chatRef =
+doc(
+db,
+"chats",
+chatId
+);
+
+
+const existing =
+await getDoc(chatRef);
+
+
+if(!existing.exists()){
+
+await setDoc(
+chatRef,
+{
+
+type:"personal",
+
+members:[
+currentUser.uid,
+otherUser.uid
+],
+
+memberEmails:[
+currentUser.email,
+otherUser.email
+],
+
+createdAt:
+serverTimestamp()
+
+}
+
+);
+
+}
+
+
+openChat(
+chatId,
+email
+);
+
+};
+
+
+
+/* CREATE GROUP */
+
+window.newGroup =
+async function(){
+
+const name =
+prompt("Enter group name:");
+
+
+if(!name){
+
+return;
+
+}
+
+
+const groupRef =
+await addDoc(
+collection(db,"chats"),
+{
+
+type:"group",
+
+name:name,
+
+members:[
+currentUser.uid
+],
+
+memberEmails:[
+currentUser.email
+],
+
+createdAt:
+serverTimestamp()
+
+}
+
+);
+
+
+alert(
+"Group created! You can now start chatting."
+);
+
+
+openChat(
+groupRef.id,
+name
+);
+
+};
+
+
+
+/* OPEN CHAT */
+
+function openChat(
+chatId,
+name
+){
+
+activeChatId =
+chatId;
+
+activeChatName =
+name;
+
+
+document.getElementById(
+"main"
+).classList.add(
+"chatOpen"
+);
+
+
+document.getElementById(
+"emptyChat"
+).style.display=
+"none";
+
+
+document.getElementById(
+"chatHeader"
+).style.display=
+"flex";
+
+
+document.getElementById(
+"messages"
+).style.display=
+"block";
+
+
+document.getElementById(
+"messageBox"
+).style.display=
+"flex";
+
+
+document.getElementById(
+"chatTitle"
+).innerText=
+name;
+
+
+loadMessages();
+
+}
+
+
+
+/* LOAD MESSAGES */
+
+function loadMessages(){
+
+if(unsubscribeMessages){
+
+unsubscribeMessages();
+
+}
+
+
+const messagesQuery =
+query(
+
+collection(
+db,
+"chats",
+activeChatId,
+"messages"
+),
+
+orderBy(
+"createdAt",
+"asc"
+)
+
+);
+
+
+unsubscribeMessages =
+onSnapshot(
+messagesQuery,
+snapshot=>{
+
+const messages =
+document.getElementById(
+"messages"
+);
+
+
+messages.innerHTML="";
+
+
+snapshot.forEach(
+messageDoc=>{
+
+const data =
+messageDoc.data();
+
+
+const div =
+document.createElement("div");
+
+
+div.className =
+"message " +
+(
+data.senderId === currentUser.uid
+?
+"sent"
+:
+"received"
+);
+
+
+let senderText =
+"";
+
+
+if(
+data.senderId !== currentUser.uid
+){
+
+senderText =
+`
+<div class="sender">
+${data.senderEmail || "User"}
+</div>
+`;
+
+}
+
+
+div.innerHTML =
+
+senderText +
+
+`
+
+${data.text}
+
+<div class="messageTime">
+
+${
+data.createdAt
+?
+data.createdAt
+.toDate()
+.toLocaleTimeString()
+:
+"Sending..."
+}
+
+</div>
+
+`;
+
+
+messages.appendChild(
+div
+);
+
+}
+);
+
+
+messages.scrollTop =
+messages.scrollHeight;
+
+}
+
+);
+
+}
+
+
+
+/* SEND MESSAGE */
+
+window.sendMessage =
+async function(){
+
+const input =
+document.getElementById(
+"messageInput"
+);
+
+
+const text =
+input.value.trim();
+
+
+if(
+!text ||
+!activeChatId
+){
+
+return;
+
+}
+
+
+input.value="";
+
+
+await addDoc(
+
+collection(
+db,
+"chats",
+activeChatId,
+"messages"
+),
+
+{
+
+text:text,
+
+senderId:
+currentUser.uid,
+
+senderEmail:
+currentUser.email,
+
+createdAt:
+serverTimestamp()
+
+}
+
+);
+
+};
+
+
+
+/* ENTER KEY */
+
+window.checkEnter =
+function(event){
+
+if(
+event.key === "Enter"
+){
+
+sendMessage();
+
+}
+
+};
 
 </script>
 
