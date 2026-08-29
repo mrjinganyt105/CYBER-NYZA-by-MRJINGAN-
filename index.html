@@ -11,8 +11,44 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
+    font-family: Arial, sans-<script type="module">
+
+import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import { 
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  orderBy,
+  onSnapshot
+} from 
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDG6dW07j-tfClCQ1o2B5GgyqBED1ZUx8s",
+  authDomain: "cyber-nyza-by-mrjingan-9d4c3.firebaseapp.com",
+  projectId: "cyber-nyza-by-mrjingan-9d4c3",
+  storageBucket: "cyber-nyza-by-mrjingan-9d4c3.firebasestorage.app",
+  messagingSenderId: "246846891948",
+  appId: "1:246846891948:web:ded9f6edb7ba6852ce3c09"
+};
+
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
+// Connect Firestore
+const db = getFirestore(app);
+
+
+console.log("CYBER NYZA Firebase Connected 🔥");
+
+</script>
 
 body {
     background: #050505;
