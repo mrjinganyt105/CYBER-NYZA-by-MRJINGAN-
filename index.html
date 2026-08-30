@@ -222,6 +222,42 @@ header h1{
 .bar button:disabled{
   opacity:.5;
 }
+
+/* MEDIA + VOICE */
+.mediaBtn{
+  width:48px;
+  min-width:48px;
+  padding:0 !important;
+  font-size:22px !important;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+#mediaInput{display:none;}
+.recording{background:#d64545 !important;}
+.mediaImage,.mediaVideo{
+  width:100%;
+  max-width:320px;
+  border-radius:12px;
+  margin-top:4px;
+  display:block;
+}
+.mediaAudio{width:100%;margin-top:6px;}
+.fileLink{
+  display:inline-block;
+  color:#fff;
+  background:rgba(255,255,255,.12);
+  padding:10px 12px;
+  border-radius:10px;
+  text-decoration:none;
+  margin-top:4px;
+}
+.uploadStatus{
+  font-size:12px;
+  color:#aab8ff;
+  text-align:center;
+  padding:4px;
+}
 </style>
 </head>
 
@@ -296,6 +332,12 @@ header h1{
 
   <form class="bar" id="form">
 
+    <input id="mediaInput" type="file"
+      accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt">
+
+    <button id="attachBtn" class="mediaBtn" type="button">📎</button>
+    <button id="voiceBtn" class="mediaBtn" type="button">🎤</button>
+
     <input
       id="message"
       placeholder="Type a message..."
@@ -307,6 +349,8 @@ header h1{
     </button>
 
   </form>
+
+  <div id="uploadStatus" class="uploadStatus"></div>
 
 </main>
 
@@ -338,6 +382,13 @@ import {
   updateProfile
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
 
 const firebaseConfig = {
 
@@ -366,6 +417,8 @@ const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 
 const auth = getAuth(firebaseApp);
+
+const storage = getStorage(firebaseApp);
 
 const messagesRef =
 collection(db, "messages");
@@ -419,6 +472,21 @@ document.getElementById("message");
 const send =
 document.getElementById("send");
 
+const attachBtn =
+document.getElementById("attachBtn");
+
+const voiceBtn =
+document.getElementById("voiceBtn");
+
+const mediaInput =
+document.getElementById("mediaInput");
+
+const uploadStatus =
+document.getElementById("uploadStatus");
+
+let mediaRecorder = null;
+let audioChunks = [];
+let recordingStream = null;
 
 let loginMode = false;
 
@@ -680,18 +748,74 @@ function startChat(user){
         "User";
 
 
-        const text =
+        const content =
         document.createElement("div");
 
-        text.textContent =
-        data.text ||
-        "";
+        if(data.type === "image" && data.url){
 
+          const image =
+          document.createElement("img");
+
+          image.src = data.url;
+          image.alt = data.fileName || "Image";
+          image.className = "mediaImage";
+
+          content.appendChild(image);
+
+        }
+
+        else if(data.type === "video" && data.url){
+
+          const video =
+          document.createElement("video");
+
+          video.src = data.url;
+          video.controls = true;
+          video.playsInline = true;
+          video.className = "mediaVideo";
+
+          content.appendChild(video);
+
+        }
+
+        else if(data.type === "audio" && data.url){
+
+          const audio =
+          document.createElement("audio");
+
+          audio.src = data.url;
+          audio.controls = true;
+          audio.className = "mediaAudio";
+
+          content.appendChild(audio);
+
+        }
+
+        else if(data.type === "file" && data.url){
+
+          const link =
+          document.createElement("a");
+
+          link.href = data.url;
+          link.target = "_blank";
+          link.rel = "noopener";
+          link.className = "fileLink";
+          link.textContent =
+          "📄 " + (data.fileName || "Open file");
+
+          content.appendChild(link);
+
+        }
+
+        else{
+
+          content.textContent =
+          data.text || "";
+
+        }
 
         div.appendChild(name);
-
-        div.appendChild(text);
-
+        div.appendChild(content);
 
         if(data.createdAt){
 
@@ -820,6 +944,226 @@ async (e) => {
   }
 
 });
+
+/* MEDIA UPLOAD + VOICE MESSAGE */
+
+function safeFileName(name){
+  return (name || "file").replace(/[^a-zA-Z0-9._-]/g, "_");
+}
+
+function getMessageType(file){
+  if(file.type.startsWith("image/")) return "image";
+  if(file.type.startsWith("video/")) return "video";
+  if(file.type.startsWith("audio/")) return "audio";
+  return "file";
+}
+
+async function sendMedia(file, forcedType = null){
+
+  const user = auth.currentUser;
+
+  if(!user){
+    alert("Please login first");
+    return;
+  }
+
+  if(!file) return;
+
+  if(file.size > 25 * 1024 * 1024){
+    alert("Please choose a file smaller than 25 MB");
+    return;
+  }
+
+  const type = forcedType || getMessageType(file);
+  const fileName = safeFileName(file.name);
+
+  const storagePath =
+  "messages/" + user.uid + "/" + Date.now() + "_" + fileName;
+
+  try{
+
+    attachBtn.disabled = true;
+    voiceBtn.disabled = true;
+    send.disabled = true;
+
+    uploadStatus.textContent =
+    "Uploading " + fileName + "...";
+
+    const storageRef = ref(storage, storagePath);
+
+    await uploadBytes(
+      storageRef,
+      file,
+      {contentType:file.type || undefined}
+    );
+
+    const url =
+    await getDownloadURL(storageRef);
+
+    await addDoc(
+      messagesRef,
+      {
+        type:type,
+        url:url,
+        fileName:file.name || fileName,
+        name:user.displayName || user.email,
+        uid:user.uid,
+        createdAt:serverTimestamp()
+      }
+    );
+
+    uploadStatus.textContent = "✅ Sent successfully";
+
+    setTimeout(() => {
+      uploadStatus.textContent = "";
+    }, 2500);
+
+  }
+
+  catch(error){
+
+    console.error(error);
+    uploadStatus.textContent = "";
+
+    alert(
+      "Upload error: " +
+      (error.code || error.message)
+    );
+
+  }
+
+  finally{
+
+    attachBtn.disabled = false;
+    voiceBtn.disabled = false;
+    send.disabled = false;
+    mediaInput.value = "";
+
+  }
+
+}
+
+attachBtn.addEventListener(
+"click",
+() => mediaInput.click()
+);
+
+mediaInput.addEventListener(
+"change",
+async () => {
+
+  const file = mediaInput.files[0];
+
+  if(file){
+    await sendMedia(file);
+  }
+
+}
+);
+
+voiceBtn.addEventListener(
+"click",
+async () => {
+
+  if(
+    !mediaRecorder ||
+    mediaRecorder.state === "inactive"
+  ){
+
+    try{
+
+      recordingStream =
+      await navigator.mediaDevices.getUserMedia(
+        {audio:true}
+      );
+
+      audioChunks = [];
+
+      mediaRecorder =
+      new MediaRecorder(recordingStream);
+
+      mediaRecorder.ondataavailable =
+      (event) => {
+        if(event.data.size > 0){
+          audioChunks.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop =
+      async () => {
+
+        const mimeType =
+        mediaRecorder.mimeType || "audio/webm";
+
+        const extension =
+        mimeType.includes("mp4") ? "m4a" : "webm";
+
+        const audioBlob =
+        new Blob(
+          audioChunks,
+          {type:mimeType}
+        );
+
+        const audioFile =
+        new File(
+          [audioBlob],
+          "voice-" + Date.now() + "." + extension,
+          {type:mimeType}
+        );
+
+        if(recordingStream){
+          recordingStream
+          .getTracks()
+          .forEach(track => track.stop());
+          recordingStream = null;
+        }
+
+        voiceBtn.classList.remove("recording");
+        voiceBtn.textContent = "🎤";
+
+        uploadStatus.textContent =
+        "Sending voice message...";
+
+        await sendMedia(
+          audioFile,
+          "audio"
+        );
+
+      };
+
+      mediaRecorder.start();
+
+      voiceBtn.classList.add("recording");
+      voiceBtn.textContent = "⏹️";
+
+      uploadStatus.textContent =
+      "🔴 Recording... Tap ⏹️ to send";
+
+    }
+
+    catch(error){
+
+      console.error(error);
+
+      alert(
+        "Microphone permission is required for voice messages."
+      );
+
+    }
+
+  }
+
+  else if(mediaRecorder.state === "recording"){
+
+    uploadStatus.textContent =
+    "Processing voice message...";
+
+    mediaRecorder.stop();
+
+  }
+
+}
+);
 
 </script>
 
