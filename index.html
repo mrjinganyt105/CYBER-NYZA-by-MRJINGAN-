@@ -2,1670 +2,1178 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<title>CYBER NYZA CHAT</title>
+<title>CYBER NYZA - Real-time Chat</title>
 
 <style>
-
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-  background:#080b12;
-  color:white;
-  min-height:100vh;
+    min-height:100vh;
+    background:
+        radial-gradient(circle at top left,#1d2850 0%,transparent 40%),
+        radial-gradient(circle at bottom right,#2d1658 0%,transparent 40%),
+        #080d1c;
+    color:white;
 }
 
+/* AUTH PAGE */
 
-/* LOGIN SCREEN */
-
-#loginScreen{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-
-  background:
-  radial-gradient(circle at top right,#293c8f55,transparent 40%),
-  linear-gradient(135deg,#080b12,#151d35);
+#authPage{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
 }
 
-.loginBox{
-  width:100%;
-  max-width:400px;
-
-  padding:35px 25px;
-
-  background:#111827;
-
-  border:1px solid #2a3555;
-
-  border-radius:25px;
-
-  box-shadow:
-  0 20px 60px #00000080;
+.auth-box{
+    width:100%;
+    max-width:480px;
+    padding:45px 35px;
+    border:1px solid #33415f;
+    border-radius:35px;
+    background:rgba(17,24,43,.88);
+    backdrop-filter:blur(15px);
+    box-shadow:0 20px 70px rgba(0,0,0,.4);
 }
 
-.loginLogo{
-  text-align:center;
-
-  font-size:32px;
-
-  font-weight:bold;
-
-  margin-bottom:10px;
-
-  color:#ffffff;
+.logo{
+    text-align:center;
+    margin-bottom:40px;
 }
 
-.loginSub{
-  text-align:center;
-
-  color:#9ca3af;
-
-  margin-bottom:30px;
+.logo h1{
+    font-size:42px;
+    letter-spacing:2px;
+    font-weight:800;
 }
 
-.loginBox input{
-
-  width:100%;
-
-  padding:16px;
-
-  border-radius:14px;
-
-  border:1px solid #334155;
-
-  background:#0b1020;
-
-  color:white;
-
-  font-size:16px;
-
-  outline:none;
-
-  margin-bottom:15px;
+.logo .bolt{
+    color:#ffc400;
+    margin-right:8px;
 }
 
-.loginBox button{
-
-  width:100%;
-
-  padding:16px;
-
-  border:none;
-
-  border-radius:14px;
-
-  background:linear-gradient(135deg,#2563eb,#6d28d9);
-
-  color:white;
-
-  font-size:17px;
-
-  font-weight:bold;
-
-  cursor:pointer;
+.logo p{
+    margin-top:12px;
+    color:#aab4c8;
+    font-size:20px;
 }
 
-
-/* CHAT SCREEN */
-
-#chatScreen{
-  display:none;
-
-  min-height:100vh;
-
-  flex-direction:column;
-
-  background:
-  radial-gradient(circle at top left,#1e3a8a33,transparent 40%),
-  #080b12;
+.by{
+    color:#7286ff;
+    font-size:14px;
+    margin-top:8px;
 }
 
+.tabs{
+    display:flex;
+    background:#0b1121;
+    border-radius:15px;
+    padding:5px;
+    margin-bottom:25px;
+}
+
+.tab{
+    flex:1;
+    padding:14px;
+    border:none;
+    border-radius:11px;
+    background:transparent;
+    color:#aab4c8;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.tab.active{
+    background:linear-gradient(135deg,#3567d6,#7137c8);
+    color:white;
+}
+
+.form{
+    display:none;
+}
+
+.form.active{
+    display:block;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:8px;
+    color:#c4cce0;
+}
+
+.input-group input{
+    width:100%;
+    padding:17px;
+    border-radius:15px;
+    border:1px solid #34425f;
+    background:#0a1020;
+    color:white;
+    outline:none;
+    font-size:16px;
+}
+
+.input-group input:focus{
+    border-color:#587cff;
+}
+
+.main-btn{
+    width:100%;
+    padding:18px;
+    border:none;
+    border-radius:16px;
+    cursor:pointer;
+    color:white;
+    font-size:20px;
+    font-weight:bold;
+    background:linear-gradient(90deg,#3567d6,#7137c8);
+    transition:.2s;
+}
+
+.main-btn:hover{
+    transform:translateY(-2px);
+}
+
+.error{
+    color:#ff7b7b;
+    text-align:center;
+    margin-top:15px;
+    min-height:20px;
+}
+
+.success{
+    color:#63e6a6;
+}
+
+/* CHAT PAGE */
+
+#chatPage{
+    display:none;
+    min-height:100vh;
+}
+
+.chat-app{
+    max-width:900px;
+    margin:auto;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:rgba(8,13,28,.65);
+    border-left:1px solid #1f2b45;
+    border-right:1px solid #1f2b45;
+}
 
 .header{
-
-  position:sticky;
-
-  top:0;
-
-  z-index:10;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:space-between;
-
-  gap:10px;
-
-  padding:15px;
-
-  background:#111827eF;
-
-  border-bottom:1px solid #26324b;
-
-  backdrop-filter:blur(10px);
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #24314c;
+    background:rgba(12,18,35,.95);
 }
 
-
-.userInfo{
-
-  min-width:0;
+.header-logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-
-.userEmail{
-
-  font-size:15px;
-
-  font-weight:bold;
-
-  overflow:hidden;
-
-  text-overflow:ellipsis;
-
-  white-space:nowrap;
+.header-logo .icon{
+    font-size:28px;
+    color:#ffc400;
 }
 
-
-.status{
-
-  font-size:12px;
-
-  color:#22c55e;
-
-  margin-top:4px;
+.header-logo h2{
+    font-size:21px;
 }
 
-
-.logoutBtn{
-
-  border:none;
-
-  padding:10px 15px;
-
-  border-radius:12px;
-
-  background:#ef4444;
-
-  color:white;
-
-  font-weight:bold;
-
-  cursor:pointer;
+.header-logo span{
+    display:block;
+    font-size:12px;
+    color:#9da9c2;
+    margin-top:3px;
 }
 
-
-/* MESSAGES */
-
-#messages{
-
-  flex:1;
-
-  padding:20px 14px 130px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  gap:14px;
-
-  overflow-y:auto;
+.user-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
+.user-name{
+    text-align:right;
+}
+
+.user-name strong{
+    display:block;
+    font-size:14px;
+}
+
+.online{
+    font-size:11px;
+    color:#64e99d;
+}
+
+.logout-btn{
+    border:none;
+    background:#202b44;
+    color:white;
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.messages{
+    flex:1;
+    padding:20px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.welcome{
+    text-align:center;
+    color:#9da9c2;
+    margin:auto;
+}
 
 .message{
-
-  max-width:80%;
-
-  padding:13px 15px;
-
-  border-radius:20px;
-
-  word-wrap:break-word;
-
-  background:#1e293b;
-
-  align-self:flex-start;
-
-  box-shadow:0 5px 20px #00000025;
+    max-width:78%;
+    padding:12px 15px;
+    border-radius:18px;
+    background:#19243b;
+    align-self:flex-start;
+    word-wrap:break-word;
 }
-
 
 .message.mine{
-
-  align-self:flex-end;
-
-  background:linear-gradient(
-    135deg,
-    #2563eb,
-    #4338ca
-  );
+    align-self:flex-end;
+    background:linear-gradient(135deg,#3567d6,#6735bb);
 }
-
 
 .sender{
-
-  font-size:12px;
-
-  font-weight:bold;
-
-  opacity:.8;
-
-  margin-bottom:6px;
+    font-size:12px;
+    font-weight:bold;
+    margin-bottom:5px;
+    color:#9eb5ff;
 }
 
-
-.messageText{
-
-  font-size:16px;
-
-  line-height:1.4;
+.message.mine .sender{
+    color:#ddd2ff;
 }
 
-
-.time{
-
-  font-size:10px;
-
-  opacity:.65;
-
-  margin-top:7px;
+.message-text{
+    font-size:16px;
+    line-height:1.4;
 }
 
-
-.message img{
-
-  max-width:100%;
-
-  border-radius:12px;
-
-  margin-top:5px;
-
-  display:block;
+.message-time{
+    font-size:10px;
+    opacity:.65;
+    margin-top:7px;
+    text-align:right;
 }
 
-
-.message audio{
-
-  width:100%;
-
-  margin-top:5px;
+.chat-input-area{
+    padding:15px;
+    border-top:1px solid #24314c;
+    display:flex;
+    gap:10px;
+    background:#0c1223;
 }
-
-
-.fileLink{
-
-  display:block;
-
-  color:white;
-
-  text-decoration:none;
-
-  padding:10px;
-
-  border-radius:10px;
-
-  background:#00000030;
-}
-
-
-/* RECORDING STATUS */
-
-#recordingStatus{
-
-  display:none;
-
-  position:fixed;
-
-  bottom:85px;
-
-  left:50%;
-
-  transform:translateX(-50%);
-
-  background:#ef4444;
-
-  padding:8px 15px;
-
-  border-radius:20px;
-
-  font-size:13px;
-
-  z-index:20;
-}
-
-
-/* INPUT AREA */
-
-.inputArea{
-
-  position:fixed;
-
-  bottom:0;
-
-  left:0;
-
-  width:100%;
-
-  padding:12px;
-
-  display:flex;
-
-  gap:8px;
-
-  align-items:center;
-
-  background:#111827;
-
-  border-top:1px solid #26324b;
-}
-
 
 #messageInput{
-
-  flex:1;
-
-  border:none;
-
-  outline:none;
-
-  padding:15px;
-
-  border-radius:25px;
-
-  background:#1f2937;
-
-  color:white;
-
-  font-size:16px;
-
-  min-width:0;
+    flex:1;
+    border:none;
+    outline:none;
+    padding:16px;
+    border-radius:15px;
+    background:#151f35;
+    color:white;
+    font-size:16px;
 }
 
-
-.iconBtn{
-
-  width:48px;
-
-  height:48px;
-
-  border:none;
-
-  border-radius:50%;
-
-  background:#26324b;
-
-  color:white;
-
-  font-size:20px;
-
-  cursor:pointer;
-
-  flex-shrink:0;
+.send-btn{
+    width:58px;
+    border:none;
+    border-radius:15px;
+    cursor:pointer;
+    color:white;
+    font-size:22px;
+    background:linear-gradient(135deg,#3567d6,#7137c8);
 }
 
+@media(max-width:600px){
 
-#sendBtn{
+    .auth-box{
+        padding:35px 22px;
+        border-radius:28px;
+    }
 
-  padding:14px 18px;
+    .logo h1{
+        font-size:34px;
+    }
 
-  border:none;
+    .header-logo h2{
+        font-size:17px;
+    }
 
-  border-radius:25px;
+    .user-name{
+        display:none;
+    }
 
-  background:linear-gradient(
-    135deg,
-    #2563eb,
-    #4338ca
-  );
-
-  color:white;
-
-  font-size:16px;
-
-  font-weight:bold;
-
-  cursor:pointer;
-
-  flex-shrink:0;
+    .message{
+        max-width:88%;
+    }
 }
-
-
-#fileInput{
-  display:none;
-}
-
-
-@media(max-width:500px){
-
-  .message{
-    max-width:88%;
-  }
-
-  #sendBtn{
-    padding:14px;
-  }
-
-}
-
 </style>
-
 </head>
 
 <body>
 
 
-<!-- LOGIN SCREEN -->
+<!-- ================= AUTH PAGE ================= -->
 
-<div id="loginScreen">
+<div id="authPage">
 
-  <div class="loginBox">
+    <div class="auth-box">
 
-    <div class="loginLogo">
-      ⚡ CYBER NYZA
+        <div class="logo">
+            <h1><span class="bolt">⚡</span>CYBER NYZA</h1>
+            <p>Real-time Chat</p>
+            <div class="by">by mrjingan</div>
+        </div>
+
+
+        <div class="tabs">
+
+            <button class="tab active" id="loginTab">
+                Login
+            </button>
+
+            <button class="tab" id="signupTab">
+                Sign Up
+            </button>
+
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <div class="form active" id="loginForm">
+
+            <div class="input-group">
+                <label>Email</label>
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Enter your email"
+                >
+            </div>
+
+
+            <div class="input-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter your password"
+                >
+            </div>
+
+
+            <button class="main-btn" id="loginBtn">
+                Login
+            </button>
+
+        </div>
+
+
+
+        <!-- SIGNUP -->
+
+        <div class="form" id="signupForm">
+
+            <div class="input-group">
+                <label>Your Name</label>
+                <input
+                    type="text"
+                    id="signupName"
+                    placeholder="Enter your name"
+                >
+            </div>
+
+
+            <div class="input-group">
+                <label>Email</label>
+                <input
+                    type="email"
+                    id="signupEmail"
+                    placeholder="Enter your email"
+                >
+            </div>
+
+
+            <div class="input-group">
+                <label>Password</label>
+                <input
+                    type="password"
+                    id="signupPassword"
+                    placeholder="Minimum 6 characters"
+                >
+            </div>
+
+
+            <button class="main-btn" id="signupBtn">
+                Create Account
+            </button>
+
+        </div>
+
+
+        <div class="error" id="authMessage"></div>
+
     </div>
-
-    <div class="loginSub">
-      Real-time Chat
-    </div>
-
-    <input
-      id="nameInput"
-      type="text"
-      placeholder="Enter your name"
-      maxlength="30"
-    >
-
-    <button onclick="login()">
-      Enter Chat
-    </button>
-
-  </div>
 
 </div>
 
 
 
-<!-- CHAT SCREEN -->
+<!-- ================= CHAT PAGE ================= -->
 
-<div id="chatScreen">
+<div id="chatPage">
 
-  <div class="header">
+    <div class="chat-app">
 
-    <div class="userInfo">
 
-      <div class="userEmail"
-      id="userName">
-      </div>
+        <!-- HEADER -->
 
-      <div class="status">
-        🟢 Connected
-      </div>
+        <div class="header">
+
+            <div class="header-logo">
+
+                <div class="icon">⚡</div>
+
+                <div>
+                    <h2>CYBER NYZA</h2>
+                    <span>by mrjingan • Real-time Chat</span>
+                </div>
+
+            </div>
+
+
+            <div class="user-area">
+
+                <div class="user-name">
+                    <strong id="currentUserName">
+                        User
+                    </strong>
+
+                    <div class="online">
+                        🟢 Online
+                    </div>
+                </div>
+
+
+                <button class="logout-btn" id="logoutBtn">
+                    Logout
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MESSAGES -->
+
+        <div class="messages" id="messages">
+
+            <div class="welcome">
+                ⚡ Welcome to CYBER NYZA Chat
+            </div>
+
+        </div>
+
+
+
+        <!-- MESSAGE INPUT -->
+
+        <div class="chat-input-area">
+
+            <input
+                type="text"
+                id="messageInput"
+                placeholder="Type a message..."
+                autocomplete="off"
+            >
+
+            <button class="send-btn" id="sendBtn">
+                ➤
+            </button>
+
+        </div>
+
 
     </div>
-
-    <button
-      class="logoutBtn"
-      onclick="logout()">
-
-      Logout
-
-    </button>
-
-  </div>
-
-
-
-  <!-- MESSAGES -->
-
-  <div id="messages"></div>
-
-
-
-  <!-- RECORDING STATUS -->
-
-  <div id="recordingStatus">
-
-    🔴 Recording voice message...
-
-  </div>
-
-
-
-  <!-- MESSAGE INPUT -->
-
-  <div class="inputArea">
-
-    <button
-      class="iconBtn"
-      onclick="openFile()">
-
-      📎
-
-    </button>
-
-
-    <input
-      type="file"
-      id="fileInput"
-      accept="image/*,video/*,audio/*"
-    >
-
-
-    <input
-      id="messageInput"
-      placeholder="Type a message..."
-    >
-
-
-    <button
-      class="iconBtn"
-      id="voiceBtn"
-      onclick="toggleRecording()">
-
-      🎤
-
-    </button>
-
-
-    <button
-      id="sendBtn"
-      onclick="sendMessage()">
-
-      Send
-
-    </button>
-
-  </div>
-
 
 </div>
 
 
+
+<!-- ================= FIREBASE ================= -->
 
 <script type="module">
 
-
-/* =========================
-   FIREBASE IMPORTS
-========================= */
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 
 import {
-  initializeApp
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged,
+    updateProfile
 }
-from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
 
 import {
-
-  getFirestore,
-
-  collection,
-
-  addDoc,
-
-  onSnapshot,
-
-  query,
-
-  orderBy
-
+    getFirestore,
+    collection,
+    addDoc,
+    query,
+    orderBy,
+    onSnapshot,
+    serverTimestamp,
+    limit
 }
-from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
-import {
 
-  getStorage,
-
-  ref,
-
-  uploadBytes,
-
-  getDownloadURL
-
-}
-from
-"https://www.gstatic.com/firebasejs/12.18.0/firebase-storage.js";
-
-
-/* =========================
-   FIREBASE CONFIG
-========================= */
-
+/* ================= FIREBASE CONFIG ================= */
 
 const firebaseConfig = {
 
-  apiKey:
-  "AIzaSyDG6dW07j-tfClCQ1o2B5GgyqBED1ZUx8s",
+    apiKey: "AIzaSyDG6dW07j-tfClCQ1o2B5GgyqBED1ZUx8s",
 
-  authDomain:
-  "cyber-nyza-by-mrjingan-9d4c3.firebaseapp.com",
+    authDomain: "cyber-nyza-by-mrjingan-9d4c3.firebaseapp.com",
 
-  projectId:
-  "cyber-nyza-by-mrjingan-9d4c3",
+    projectId: "cyber-nyza-by-mrjingan-9d4c3",
 
-  storageBucket:
-  "cyber-nyza-by-mrjingan-9d4c3.firebasestorage.app",
+    storageBucket: "cyber-nyza-by-mrjingan-9d4c3.firebasestorage.app",
 
-  messagingSenderId:
-  "246846891948",
+    messagingSenderId: "246846891948",
 
-  appId:
-  "1:246846891948:web:7054c940ea7b9eefce3c09"
+    appId: "1:246846891948:web:7054c940ea7b9eefce3c09"
 
 };
 
 
-/* =========================
-   INITIALIZE FIREBASE
-========================= */
+/* ================= INITIALIZE ================= */
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
 
 
-const app =
-initializeApp(firebaseConfig);
+
+/* ================= ELEMENTS ================= */
+
+const authPage = document.getElementById("authPage");
+
+const chatPage = document.getElementById("chatPage");
 
 
-const db =
-getFirestore(app);
+const loginTab = document.getElementById("loginTab");
+
+const signupTab = document.getElementById("signupTab");
 
 
-const storage =
-getStorage(app);
+const loginForm = document.getElementById("loginForm");
+
+const signupForm = document.getElementById("signupForm");
 
 
-/* =========================
-   ELEMENTS
-========================= */
+const loginEmail = document.getElementById("loginEmail");
+
+const loginPassword = document.getElementById("loginPassword");
 
 
-const loginScreen =
-document.getElementById("loginScreen");
+const signupName = document.getElementById("signupName");
+
+const signupEmail = document.getElementById("signupEmail");
+
+const signupPassword = document.getElementById("signupPassword");
 
 
-const chatScreen =
-document.getElementById("chatScreen");
+const loginBtn = document.getElementById("loginBtn");
+
+const signupBtn = document.getElementById("signupBtn");
 
 
-const nameInput =
-document.getElementById("nameInput");
+const authMessage = document.getElementById("authMessage");
 
 
-const userName =
-document.getElementById("userName");
+const logoutBtn = document.getElementById("logoutBtn");
+
+const currentUserName = document.getElementById("currentUserName");
 
 
-const messagesDiv =
-document.getElementById("messages");
+const messages = document.getElementById("messages");
+
+const messageInput = document.getElementById("messageInput");
+
+const sendBtn = document.getElementById("sendBtn");
 
 
-const messageInput =
-document.getElementById("messageInput");
+
+/* ================= TAB SWITCH ================= */
+
+loginTab.addEventListener("click", () => {
+
+    loginTab.classList.add("active");
+
+    signupTab.classList.remove("active");
+
+    loginForm.classList.add("active");
+
+    signupForm.classList.remove("active");
+
+    authMessage.textContent = "";
+
+});
 
 
-const fileInput =
-document.getElementById("fileInput");
+signupTab.addEventListener("click", () => {
+
+    signupTab.classList.add("active");
+
+    loginTab.classList.remove("active");
+
+    signupForm.classList.add("active");
+
+    loginForm.classList.remove("active");
+
+    authMessage.textContent = "";
+
+});
 
 
-const voiceBtn =
-document.getElementById("voiceBtn");
+
+/* ================= SIGN UP ================= */
+
+signupBtn.addEventListener("click", async () => {
+
+    const name = signupName.value.trim();
+
+    const email = signupEmail.value.trim();
+
+    const password = signupPassword.value;
 
 
-const recordingStatus =
-document.getElementById("recordingStatus");
+    if(!name || !email || !password){
+
+        authMessage.textContent =
+        "Please fill all fields.";
+
+        return;
+
+    }
 
 
-/* =========================
-   CURRENT USER
-========================= */
+    try{
+
+        signupBtn.textContent = "Creating...";
+
+        signupBtn.disabled = true;
 
 
-let currentUser =
-localStorage.getItem("cyberNyzaUser");
+        const userCredential =
+        await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
 
 
-/* =========================
-   LOGIN
-========================= */
+        await updateProfile(
+            userCredential.user,
+            {
+                displayName:name
+            }
+        );
 
 
-window.login = function(){
+        authMessage.classList.add("success");
 
-  const name =
-  nameInput.value.trim();
-
-
-  if(!name){
-
-    alert(
-      "Please enter your name"
-    );
-
-    return;
-
-  }
+        authMessage.textContent =
+        "Account created successfully!";
 
 
-  currentUser =
-  name;
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        authMessage.classList.remove("success");
 
 
-  localStorage.setItem(
-    "cyberNyzaUser",
-    currentUser
-  );
+        if(error.code === "auth/email-already-in-use"){
+
+            authMessage.textContent =
+            "This email is already registered.";
+
+        }
+
+        else if(error.code === "auth/weak-password"){
+
+            authMessage.textContent =
+            "Password must be at least 6 characters.";
+
+        }
+
+        else{
+
+            authMessage.textContent =
+            error.message;
+
+        }
+
+    }
+
+    finally{
+
+        signupBtn.textContent =
+        "Create Account";
+
+        signupBtn.disabled = false;
+
+    }
+
+});
 
 
-  startChat();
 
-};
+/* ================= LOGIN ================= */
 
+loginBtn.addEventListener("click", async () => {
 
-/* =========================
-   START CHAT
-========================= */
+    const email = loginEmail.value.trim();
 
-
-function startChat(){
-
-  loginScreen.style.display =
-  "none";
+    const password = loginPassword.value;
 
 
-  chatScreen.style.display =
-  "flex";
+    if(!email || !password){
+
+        authMessage.textContent =
+        "Please enter email and password.";
+
+        return;
+
+    }
 
 
-  userName.textContent =
-  "👤 " + currentUser;
+    try{
+
+        loginBtn.textContent = "Logging in...";
+
+        loginBtn.disabled = true;
 
 
-  loadMessages();
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+
+        if(
+            error.code === "auth/invalid-credential"
+        ){
+
+            authMessage.textContent =
+            "Invalid email or password.";
+
+        }
+
+        else{
+
+            authMessage.textContent =
+            error.message;
+
+        }
+
+    }
+
+    finally{
+
+        loginBtn.textContent =
+        "Login";
+
+        loginBtn.disabled = false;
+
+    }
+
+});
+
+
+
+/* ================= LOGOUT ================= */
+
+logoutBtn.addEventListener("click", async () => {
+
+    await signOut(auth);
+
+});
+
+
+
+/* ================= AUTH STATE ================= */
+
+onAuthStateChanged(auth, (user) => {
+
+    if(user){
+
+        authPage.style.display = "none";
+
+        chatPage.style.display = "block";
+
+
+        currentUserName.textContent =
+        user.displayName ||
+        user.email ||
+        "CYBER USER";
+
+
+        loadMessages();
+
+    }
+
+    else{
+
+        chatPage.style.display = "none";
+
+        authPage.style.display = "flex";
+
+    }
+
+});
+
+
+
+/* ================= SEND MESSAGE ================= */
+
+async function sendMessage(){
+
+    const text =
+    messageInput.value.trim();
+
+
+    if(!text) return;
+
+
+    const user = auth.currentUser;
+
+
+    if(!user) return;
+
+
+    try{
+
+        sendBtn.disabled = true;
+
+
+        await addDoc(
+            collection(db,"messages"),
+            {
+
+                text:text,
+
+                sender:
+                user.displayName ||
+                user.email ||
+                "User",
+
+                uid:user.uid,
+
+                timestamp:
+                serverTimestamp()
+
+            }
+        );
+
+
+        messageInput.value = "";
+
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            "Message sending failed: " +
+            error.message
+        );
+
+    }
+
+    finally{
+
+        sendBtn.disabled = false;
+
+    }
 
 }
 
 
-/* =========================
-   LOGOUT
-========================= */
 
-
-window.logout = function(){
-
-  localStorage.removeItem(
-    "cyberNyzaUser"
-  );
-
-
-  currentUser = null;
-
-
-  chatScreen.style.display =
-  "none";
-
-
-  loginScreen.style.display =
-  "flex";
-
-
-  messagesDiv.innerHTML =
-  "";
-
-};
-
-
-/* =========================
-   SEND TEXT MESSAGE
-========================= */
-
-
-window.sendMessage =
-async function(){
-
-  const text =
-  messageInput.value.trim();
-
-
-  if(!text)
-  return;
-
-
-  messageInput.value =
-  "";
-
-
-  try{
-
-    await addDoc(
-
-      collection(
-        db,
-        "messages"
-      ),
-
-      {
-
-        sender:
-        currentUser,
-
-        type:
-        "text",
-
-        text:
-        text,
-
-        clientTime:
-        Date.now()
-
-      }
-
-    );
-
-
-  }
-  catch(error){
-
-    console.error(error);
-
-    alert(
-      "Message failed to send"
-    );
-
-  }
-
-};
-
-
-/* =========================
-   ENTER KEY SEND
-========================= */
-
-
-messageInput.addEventListener(
-  "keydown",
-
-  function(event){
-
-    if(event.key === "Enter"){
-
-      sendMessage();
-
-    }
-
-  }
-
+sendBtn.addEventListener(
+    "click",
+    sendMessage
 );
 
 
-/* =========================
-   LOAD REALTIME MESSAGES
-========================= */
+
+messageInput.addEventListener(
+    "keydown",
+    (event) => {
+
+        if(event.key === "Enter"){
+
+            sendMessage();
+
+        }
+
+    }
+);
 
 
-let messagesStarted =
-false;
+
+/* ================= REALTIME MESSAGES ================= */
+
+let unsubscribeMessages = null;
 
 
 function loadMessages(){
 
-  if(messagesStarted)
-  return;
 
+    if(unsubscribeMessages){
 
-  messagesStarted =
-  true;
-
-
-  const q =
-  query(
-
-    collection(
-      db,
-      "messages"
-    ),
-
-    orderBy(
-      "clientTime",
-      "asc"
-    )
-
-  );
-
-
-  onSnapshot(
-
-    q,
-
-    function(snapshot){
-
-      messagesDiv.innerHTML =
-      "";
-
-
-      snapshot.forEach(
-
-        function(doc){
-
-          renderMessage(
-            doc.data()
-          );
-
-        }
-
-      );
-
-
-      scrollToBottom();
-
-    },
-
-    function(error){
-
-      console.error(error);
-
-      messagesDiv.innerHTML =
-
-      `
-      <div style="
-      text-align:center;
-      color:#f87171;
-      padding:20px">
-
-      Firebase error:
-      Check Firestore Rules.
-
-      </div>
-      `;
+        unsubscribeMessages();
 
     }
 
-  );
 
-}
+    const messageQuery = query(
 
+        collection(db,"messages"),
 
-/* =========================
-   RENDER MESSAGE
-========================= */
-
-
-function renderMessage(data){
-
-  const message =
-  document.createElement("div");
-
-
-  message.className =
-  "message";
-
-
-  if(
-    data.sender === currentUser
-  ){
-
-    message.classList.add(
-      "mine"
-    );
-
-  }
-
-
-  const sender =
-  document.createElement("div");
-
-  sender.className =
-  "sender";
-
-  sender.textContent =
-  data.sender || "User";
-
-
-  message.appendChild(
-    sender
-  );
-
-
-  /* TEXT MESSAGE */
-
-  if(
-    data.type === "text"
-  ){
-
-    const text =
-    document.createElement("div");
-
-    text.className =
-    "messageText";
-
-    text.textContent =
-    data.text;
-
-    message.appendChild(
-      text
-    );
-
-  }
-
-
-  /* IMAGE MESSAGE */
-
-  else if(
-    data.type === "image"
-  ){
-
-    const image =
-    document.createElement("img");
-
-    image.src =
-    data.url;
-
-    image.loading =
-    "lazy";
-
-    message.appendChild(
-      image
-    );
-
-  }
-
-
-  /* AUDIO MESSAGE */
-
-  else if(
-    data.type === "audio"
-  ){
-
-    const audio =
-    document.createElement("audio");
-
-    audio.controls =
-    true;
-
-    audio.src =
-    data.url;
-
-    message.appendChild(
-      audio
-    );
-
-  }
-
-
-  /* VIDEO MESSAGE */
-
-  else if(
-    data.type === "video"
-  ){
-
-    const video =
-    document.createElement("video");
-
-    video.controls =
-    true;
-
-    video.src =
-    data.url;
-
-    video.style.width =
-    "100%";
-
-    video.style.borderRadius =
-    "12px";
-
-    message.appendChild(
-      video
-    );
-
-  }
-
-
-  /* FILE MESSAGE */
-
-  else{
-
-    const link =
-    document.createElement("a");
-
-    link.href =
-    data.url;
-
-    link.target =
-    "_blank";
-
-    link.className =
-    "fileLink";
-
-    link.textContent =
-    "📄 " +
-    (
-      data.fileName ||
-      "Download File"
-    );
-
-
-    message.appendChild(
-      link
-    );
-
-  }
-
-
-  /* TIME */
-
-  const time =
-  document.createElement("div");
-
-  time.className =
-  "time";
-
-
-  if(data.clientTime){
-
-    const date =
-    new Date(
-      data.clientTime
-    );
-
-
-    time.textContent =
-    date.toLocaleString();
-
-  }
-
-
-  message.appendChild(
-    time
-  );
-
-
-  messagesDiv.appendChild(
-    message
-  );
-
-}
-
-
-/* =========================
-   SCROLL
-========================= */
-
-
-function scrollToBottom(){
-
-  setTimeout(
-
-    function(){
-
-      messagesDiv.scrollTop =
-      messagesDiv.scrollHeight;
-
-    },
-
-    100
-
-  );
-
-}
-
-
-/* =========================
-   OPEN FILE
-========================= */
-
-
-window.openFile =
-function(){
-
-  fileInput.click();
-
-};
-
-
-/* =========================
-   FILE UPLOAD
-========================= */
-
-
-fileInput.addEventListener(
-
-  "change",
-
-  async function(){
-
-    const file =
-    fileInput.files[0];
-
-
-    if(!file)
-    return;
-
-
-    try{
-
-
-      const fileName =
-
-      Date.now() +
-
-      "_" +
-
-      file.name.replace(
-        /[^a-zA-Z0-9._-]/g,
-        "_"
-      );
-
-
-      const storageRef =
-      ref(
-
-        storage,
-
-        "uploads/" +
-        fileName
-
-      );
-
-
-      alert(
-        "Uploading media..."
-      );
-
-
-      await uploadBytes(
-
-        storageRef,
-
-        file
-
-      );
-
-
-      const url =
-      await getDownloadURL(
-        storageRef
-      );
-
-
-      let type =
-      "file";
-
-
-      if(
-        file.type.startsWith(
-          "image/"
-        )
-      ){
-
-        type =
-        "image";
-
-      }
-
-
-      else if(
-        file.type.startsWith(
-          "video/"
-        )
-      ){
-
-        type =
-        "video";
-
-      }
-
-
-      else if(
-        file.type.startsWith(
-          "audio/"
-        )
-      ){
-
-        type =
-        "audio";
-
-      }
-
-
-      await addDoc(
-
-        collection(
-          db,
-          "messages"
+        orderBy(
+            "timestamp",
+            "asc"
         ),
 
-        {
+        limit(200)
 
-          sender:
-          currentUser,
+    );
 
-          type:
-          type,
 
-          url:
-          url,
+    unsubscribeMessages = onSnapshot(
 
-          fileName:
-          file.name,
+        messageQuery,
 
-          clientTime:
-          Date.now()
+        (snapshot) => {
+
+
+            messages.innerHTML = "";
+
+
+            if(snapshot.empty){
+
+                messages.innerHTML = `
+
+                    <div class="welcome">
+
+                        ⚡ Welcome to CYBER NYZA Chat<br><br>
+
+                        Send the first message!
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            snapshot.forEach(
+                (doc) => {
+
+                    const data =
+                    doc.data();
+
+
+                    const messageDiv =
+                    document.createElement("div");
+
+
+                    const isMine =
+                    data.uid ===
+                    auth.currentUser.uid;
+
+
+                    messageDiv.className =
+                    isMine
+                    ? "message mine"
+                    : "message";
+
+
+                    let timeText = "";
+
+
+                    if(data.timestamp){
+
+                        const date =
+                        data.timestamp.toDate();
+
+
+                        timeText =
+                        date.toLocaleTimeString(
+                            [],
+                            {
+                                hour:"2-digit",
+                                minute:"2-digit"
+                            }
+                        );
+
+                    }
+
+
+                    const sender =
+                    escapeHTML(
+                        data.sender ||
+                        "User"
+                    );
+
+
+                    const message =
+                    escapeHTML(
+                        data.text ||
+                        ""
+                    );
+
+
+                    messageDiv.innerHTML = `
+
+                        <div class="sender">
+
+                            ${isMine
+                            ? "You"
+                            : sender}
+
+                        </div>
+
+                        <div class="message-text">
+
+                            ${message}
+
+                        </div>
+
+                        <div class="message-time">
+
+                            ${timeText}
+
+                        </div>
+
+                    `;
+
+
+                    messages.appendChild(
+                        messageDiv
+                    );
+
+                }
+            );
+
+
+            messages.scrollTop =
+            messages.scrollHeight;
+
+
+        },
+
+        (error) => {
+
+            console.error(error);
+
+
+            messages.innerHTML = `
+
+                <div class="welcome">
+
+                    Unable to load messages.<br><br>
+
+                    Check Firestore Database Rules.
+
+                </div>
+
+            `;
 
         }
 
-      );
-
-
-      fileInput.value =
-      "";
-
-
-    }
-    catch(error){
-
-      console.error(error);
-
-      alert(
-        "Upload failed. Check Firebase Storage Rules."
-      );
-
-    }
-
-
-  }
-
-);
-
-
-/* =========================
-   VOICE RECORDING
-========================= */
-
-
-let mediaRecorder =
-null;
-
-
-let audioChunks =
-[];
-
-
-let recording =
-false;
-
-
-window.toggleRecording =
-async function(){
-
-
-  /* START RECORDING */
-
-  if(!recording){
-
-
-    try{
-
-
-      const stream =
-      await navigator.mediaDevices.getUserMedia({
-
-        audio:true
-
-      });
-
-
-      audioChunks =
-      [];
-
-
-      mediaRecorder =
-      new MediaRecorder(
-        stream
-      );
-
-
-      mediaRecorder.ondataavailable =
-      function(event){
-
-        audioChunks.push(
-          event.data
-        );
-
-      };
-
-
-      mediaRecorder.onstop =
-      async function(){
-
-
-        stream
-        .getTracks()
-        .forEach(
-
-          track =>
-          track.stop()
-
-        );
-
-
-        const audioBlob =
-        new Blob(
-
-          audioChunks,
-
-          {
-
-            type:
-            "audio/webm"
-
-          }
-
-        );
-
-
-        await uploadVoice(
-          audioBlob
-        );
-
-
-      };
-
-
-      mediaRecorder.start();
-
-
-      recording =
-      true;
-
-
-      voiceBtn.textContent =
-      "⏹";
-
-
-      recordingStatus.style.display =
-      "block";
-
-
-    }
-    catch(error){
-
-      console.error(error);
-
-
-      alert(
-
-        "Microphone permission is required for voice messages."
-
-      );
-
-    }
-
-
-  }
-
-
-  /* STOP RECORDING */
-
-  else{
-
-
-    if(
-
-      mediaRecorder &&
-
-      mediaRecorder.state ===
-      "recording"
-
-    ){
-
-      mediaRecorder.stop();
-
-    }
-
-
-    recording =
-    false;
-
-
-    voiceBtn.textContent =
-    "🎤";
-
-
-    recordingStatus.style.display =
-    "none";
-
-
-  }
-
-
-};
-
-
-/* =========================
-   UPLOAD VOICE
-========================= */
-
-
-async function uploadVoice(
-  blob
-){
-
-
-  try{
-
-
-    const fileName =
-
-    "voice_" +
-
-    Date.now() +
-
-    ".webm";
-
-
-    const storageRef =
-    ref(
-
-      storage,
-
-      "voices/" +
-      fileName
-
     );
-
-
-    await uploadBytes(
-
-      storageRef,
-
-      blob
-
-    );
-
-
-    const url =
-    await getDownloadURL(
-      storageRef
-    );
-
-
-    await addDoc(
-
-      collection(
-        db,
-        "messages"
-      ),
-
-      {
-
-        sender:
-        currentUser,
-
-        type:
-        "audio",
-
-        url:
-        url,
-
-        fileName:
-        fileName,
-
-        clientTime:
-        Date.now()
-
-      }
-
-    );
-
-
-  }
-  catch(error){
-
-    console.error(error);
-
-
-    alert(
-      "Voice upload failed."
-    );
-
-  }
-
 
 }
 
 
-/* =========================
-   AUTO LOGIN
-========================= */
+
+/* ================= SECURITY ================= */
+
+function escapeHTML(text){
+
+    const div =
+    document.createElement("div");
 
 
-if(currentUser){
+    div.textContent = text;
 
-  startChat();
+
+    return div.innerHTML;
 
 }
-
-
-console.log(
-  "CYBER NYZA CHAT READY"
-);
 
 
 </script>
-
 
 </body>
 </html>
