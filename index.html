@@ -1,605 +1,343 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>CYBER NYZA CHAT</title>
+<title>CYBER NYZA CHAT</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
 
-    body {
-      background: #080b12;
-      color: white;
-      min-height: 100vh;
-    }
+body{
+  background:#080b12;
+  color:white;
+  min-height:100vh;
+}
 
-    button,
-    input {
-      font-family: inherit;
-    }
+#authScreen{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  background:linear-gradient(135deg,#080b12,#151d35);
+}
 
-    /* LOGIN SCREEN */
+.authBox{
+  width:100%;
+  max-width:400px;
+  background:#111827;
+  padding:30px 20px;
+  border-radius:25px;
+  border:1px solid #263142;
+}
 
-    #loginScreen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background:
-        radial-gradient(circle at top left, #3f51b5, transparent 40%),
-        #080b12;
-    }
+.authBox h1{
+  text-align:center;
+  margin-bottom:10px;
+  color:#ffffff;
+}
 
-    .loginBox {
-      width: 100%;
-      max-width: 400px;
-      background: #111827;
-      border: 1px solid #263142;
-      border-radius: 24px;
-      padding: 28px;
-      text-align: center;
-    }
+.authBox p{
+  text-align:center;
+  color:#aab4c4;
+  margin-bottom:25px;
+}
 
-    .loginBox h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
+.authBox input{
+  width:100%;
+  margin-bottom:12px;
+  border:0;
+  border-radius:14px;
+  padding:15px;
+  background:#202b3c;
+  color:white;
+  font-size:16px;
+  outline:none;
+}
 
-    .loginBox p {
-      color: #94a3b8;
-      margin-bottom: 25px;
-    }
+.authBox button{
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:14px;
+  background:#4f63d8;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:5px;
+}
 
-    .loginBox input {
-      width: 100%;
-      padding: 15px;
-      border-radius: 14px;
-      border: 1px solid #334155;
-      background: #202b3c;
-      color: white;
-      font-size: 16px;
-      outline: none;
-      margin-bottom: 12px;
-    }
+.switchText{
+  margin-top:18px !important;
+  font-size:14px;
+}
 
-    .loginBox button {
-      width: 100%;
-      padding: 15px;
-      border: 0;
-      border-radius: 14px;
-      background: #5367dd;
-      color: white;
-      font-weight: bold;
-      font-size: 16px;
-    }
+.switchText span{
+  color:#7185ff;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    /* CHAT APP */
+#app{
+  display:none;
+  width:100%;
+  max-width:700px;
+  min-height:100vh;
+  margin:auto;
+  background:#111827;
+}
 
-    #app {
-      display: none;
-      height: 100vh;
-      max-width: 1000px;
-      margin: auto;
-      background: #111827;
-    }
+header{
+  background:linear-gradient(135deg,#3f51b5,#243b8f);
+  padding:22px 15px;
+  text-align:center;
+}
 
-    .topbar {
-      height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 16px;
-      background: linear-gradient(135deg, #3f51b5, #243b8f);
-    }
+header h1{
+  font-size:24px;
+  letter-spacing:1px;
+}
 
-    .brand {
-      font-weight: 800;
-      font-size: 20px;
-    }
+.userBar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 15px;
+  border-bottom:1px solid #263142;
+  background:#151d29;
+}
 
-    .userTop {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+#username{
+  color:#c7d2fe;
+  font-weight:bold;
+}
 
-    .avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: #263142;
-    }
+.logoutBtn{
+  border:0;
+  background:#d64545;
+  color:white;
+  padding:8px 14px;
+  border-radius:10px;
+  font-weight:bold;
+}
 
-    #logoutBtn {
-      border: 0;
-      background: rgba(0,0,0,.2);
-      color: white;
-      padding: 9px 12px;
-      border-radius: 10px;
-    }
+#status{
+  padding:10px;
+  text-align:center;
+  color:#b9c2d0;
+  font-size:14px;
+  border-bottom:1px solid #263142;
+}
 
-    .layout {
-      display: flex;
-      height: calc(100vh - 70px);
-    }
+#messages{
+  height:calc(100vh - 220px);
+  overflow-y:auto;
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
 
-    /* SIDEBAR */
+.msg{
+  background:#1f2937;
+  padding:12px 14px;
+  border-radius:15px;
+  max-width:85%;
+  align-self:flex-start;
+  word-break:break-word;
+}
 
-    .sidebar {
-      width: 280px;
-      border-right: 1px solid #263142;
-      overflow-y: auto;
-      background: #0d1420;
-    }
+.msg.own{
+  align-self:flex-end;
+  background:#3f51b5;
+}
 
-    .profileBox {
-      padding: 18px;
-      border-bottom: 1px solid #263142;
-      text-align: center;
-    }
+.msgName{
+  font-size:12px;
+  font-weight:bold;
+  color:#aab8ff;
+  margin-bottom:5px;
+}
 
-    .profileBox label {
-      display: block;
-      cursor: pointer;
-    }
+.msg.own .msgName{
+  color:#dbe2ff;
+}
 
-    .profileAvatar {
-      width: 75px;
-      height: 75px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: #263142;
-      margin-bottom: 8px;
-    }
+.time{
+  display:block;
+  color:#b6c0d0;
+  font-size:10px;
+  margin-top:6px;
+}
 
-    #photoInput {
-      display: none;
-    }
+.empty{
+  color:#8491a3;
+  text-align:center;
+  margin-top:40px;
+}
 
-    .uploadText {
-      color: #93c5fd;
-      font-size: 12px;
-    }
+.bar{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:700px;
+  padding:12px;
+  background:#111827;
+  border-top:1px solid #263142;
+  display:flex;
+  gap:8px;
+}
 
-    #myName {
-      font-weight: bold;
-      margin-top: 5px;
-    }
+.bar input{
+  flex:1;
+  border:0;
+  border-radius:24px;
+  padding:14px;
+  background:#202b3c;
+  color:white;
+  outline:none;
+  font-size:16px;
+}
 
-    .sidebarTitle {
-      padding: 14px 16px 8px;
-      color: #94a3b8;
-      font-size: 13px;
-    }
+.bar button{
+  border:0;
+  border-radius:24px;
+  padding:0 20px;
+  background:#4f63d8;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+}
 
-    .room {
-      padding: 14px 16px;
-      cursor: pointer;
-      border-bottom: 1px solid #1d2735;
-    }
-
-    .room:hover,
-    .room.active {
-      background: #202b3c;
-    }
-
-    .userItem {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 11px 14px;
-      cursor: pointer;
-    }
-
-    .userItem:hover {
-      background: #1b2534;
-    }
-
-    .smallAvatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: #263142;
-    }
-
-    .userInfo {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .userName {
-      font-size: 14px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .online {
-      color: #4ade80;
-      font-size: 11px;
-      margin-top: 3px;
-    }
-
-    .offline {
-      color: #64748b;
-      font-size: 11px;
-      margin-top: 3px;
-    }
-
-    /* CHAT */
-
-    .chatArea {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      background: #111827;
-    }
-
-    .chatHeader {
-      padding: 15px 18px;
-      border-bottom: 1px solid #263142;
-      font-weight: bold;
-    }
-
-    #status {
-      color: #94a3b8;
-      font-size: 12px;
-      margin-top: 4px;
-    }
-
-    #messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .msg {
-      max-width: 75%;
-      background: #202b3c;
-      padding: 11px 14px;
-      border-radius: 16px;
-      align-self: flex-start;
-      word-break: break-word;
-    }
-
-    .msg.mine {
-      align-self: flex-end;
-      background: #4f63d8;
-    }
-
-    .sender {
-      font-size: 11px;
-      font-weight: bold;
-      color: #a5b4fc;
-      margin-bottom: 4px;
-    }
-
-    .time {
-      display: block;
-      font-size: 10px;
-      color: #cbd5e1;
-      opacity: .8;
-      margin-top: 5px;
-    }
-
-    .empty {
-      text-align: center;
-      color: #64748b;
-      margin-top: 50px;
-    }
-
-    .messageBar {
-      padding: 12px;
-      display: flex;
-      gap: 8px;
-      border-top: 1px solid #263142;
-    }
-
-    .messageBar input {
-      flex: 1;
-      border: 0;
-      border-radius: 24px;
-      padding: 14px;
-      background: #202b3c;
-      color: white;
-      outline: none;
-      font-size: 16px;
-    }
-
-    .messageBar button {
-      border: 0;
-      border-radius: 24px;
-      padding: 0 22px;
-      background: #4f63d8;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    button:disabled {
-      opacity: .5;
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 700px) {
-
-      .sidebar {
-        width: 110px;
-      }
-
-      .profileBox {
-        padding: 12px 5px;
-      }
-
-      #myName {
-        font-size: 11px;
-        overflow: hidden;
-      }
-
-      .sidebarTitle {
-        font-size: 10px;
-        padding: 10px;
-      }
-
-      .userName,
-      .online,
-      .offline {
-        display: none;
-      }
-
-      .userItem {
-        justify-content: center;
-      }
-
-      .room {
-        font-size: 12px;
-        text-align: center;
-      }
-
-      .brand {
-        font-size: 16px;
-      }
-
-      #logoutBtn {
-        padding: 7px;
-      }
-
-      .msg {
-        max-width: 88%;
-      }
-    }
-  </style>
+.bar button:disabled{
+  opacity:.5;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- LOGIN -->
+<!-- LOGIN / REGISTER -->
+<div id="authScreen">
 
-  <section id="loginScreen">
+  <div class="authBox">
 
-    <div class="loginBox">
+    <h1 id="authTitle">CYBER NYZA</h1>
 
-      <h1>CYBER NYZA CHAT</h1>
+    <p id="authSubtitle">Login to enter the chat</p>
 
-      <p>Enter your username to join the chat.</p>
+    <input
+      type="text"
+      id="nameInput"
+      placeholder="Your username"
+    >
 
-      <input
-        id="usernameInput"
-        type="text"
-        placeholder="Enter username"
-        maxlength="20"
-      >
+    <input
+      type="email"
+      id="emailInput"
+      placeholder="Email address"
+    >
 
-      <button id="loginBtn">
-        Enter Chat
-      </button>
+    <input
+      type="password"
+      id="passwordInput"
+      placeholder="Password"
+    >
 
+    <button id="authButton">Register</button>
+
+    <p class="switchText">
+      <span id="switchAuth">Already have an account? Login</span>
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- CHAT APP -->
+<main id="app">
+
+  <header>
+    <h1>CYBER NYZA CHAT</h1>
+  </header>
+
+  <div class="userBar">
+
+    <span>
+      👤 <span id="username">User</span>
+    </span>
+
+    <button class="logoutBtn" id="logoutBtn">
+      Logout
+    </button>
+
+  </div>
+
+  <div id="status">
+    Connecting to Firebase...
+  </div>
+
+  <div id="messages">
+    <div class="empty">
+      Loading messages...
     </div>
+  </div>
 
-  </section>
+  <form class="bar" id="form">
 
+    <input
+      id="message"
+      placeholder="Type a message..."
+      autocomplete="off"
+    >
 
-  <!-- APP -->
+    <button id="send" type="submit">
+      Send
+    </button>
 
-  <main id="app">
+  </form>
 
-    <header class="topbar">
-
-      <div class="brand">
-        CYBER NYZA CHAT
-      </div>
-
-      <div class="userTop">
-
-        <img
-          id="topAvatar"
-          class="avatar"
-          src="https://ui-avatars.com/api/?name=User"
-        >
-
-        <button id="logoutBtn">
-          Logout
-        </button>
-
-      </div>
-
-    </header>
-
-
-    <div class="layout">
-
-
-      <!-- SIDEBAR -->
-
-      <aside class="sidebar">
-
-        <div class="profileBox">
-
-          <label for="photoInput">
-
-            <img
-              id="profileAvatar"
-              class="profileAvatar"
-              src="https://ui-avatars.com/api/?name=User"
-            >
-
-            <div class="uploadText">
-              Change Photo
-            </div>
-
-          </label>
-
-          <input
-            type="file"
-            id="photoInput"
-            accept="image/*"
-          >
-
-          <div id="myName">
-            User
-          </div>
-
-        </div>
-
-
-        <div class="sidebarTitle">
-          CHAT ROOM
-        </div>
-
-        <div
-          class="room active"
-          id="globalRoom"
-        >
-          🌍 Global Chat
-        </div>
-
-
-        <div class="sidebarTitle">
-          ONLINE USERS
-        </div>
-
-        <div id="usersList"></div>
-
-      </aside>
-
-
-      <!-- CHAT -->
-
-      <section class="chatArea">
-
-        <div class="chatHeader">
-
-          <div id="chatTitle">
-            🌍 Global Chat
-          </div>
-
-          <div id="status">
-            Connecting...
-          </div>
-
-        </div>
-
-
-        <div id="messages">
-          <div class="empty">
-            Loading messages...
-          </div>
-        </div>
-
-
-        <form
-          class="messageBar"
-          id="form"
-        >
-
-          <input
-            id="message"
-            placeholder="Type a message..."
-            autocomplete="off"
-          >
-
-          <button
-            id="send"
-            type="submit"
-          >
-            Send
-          </button>
-
-        </form>
-
-      </section>
-
-    </div>
-
-  </main>
-
+</main>
 
 
 <script type="module">
 
-/* FIREBASE IMPORTS */
-
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 
 import {
-
-  getAuth,
-  signInAnonymously,
-  signOut,
-  onAuthStateChanged
-
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-import {
-
   getFirestore,
   collection,
-  doc,
-  setDoc,
-  getDoc,
   addDoc,
   query,
   orderBy,
   onSnapshot,
-  serverTimestamp,
-  updateDoc
-
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL
-
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
-
-
-
-/* FIREBASE CONFIG */
 
 const firebaseConfig = {
 
@@ -623,47 +361,51 @@ const firebaseConfig = {
 };
 
 
+const firebaseApp = initializeApp(firebaseConfig);
 
-/* INITIALIZE */
+const db = getFirestore(firebaseApp);
 
-const app = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
 
-const auth = getAuth(app);
-
-const db = getFirestore(app);
-
-const storage = getStorage(app);
+const messagesRef =
+collection(db, "messages");
 
 
-
-/* ELEMENTS */
-
-const loginScreen =
-document.getElementById("loginScreen");
+const authScreen =
+document.getElementById("authScreen");
 
 const appScreen =
 document.getElementById("app");
 
-const usernameInput =
-document.getElementById("usernameInput");
+const authTitle =
+document.getElementById("authTitle");
 
-const loginBtn =
-document.getElementById("loginBtn");
+const authSubtitle =
+document.getElementById("authSubtitle");
 
-const myName =
-document.getElementById("myName");
+const nameInput =
+document.getElementById("nameInput");
 
-const profileAvatar =
-document.getElementById("profileAvatar");
+const emailInput =
+document.getElementById("emailInput");
 
-const topAvatar =
-document.getElementById("topAvatar");
+const passwordInput =
+document.getElementById("passwordInput");
 
-const photoInput =
-document.getElementById("photoInput");
+const authButton =
+document.getElementById("authButton");
 
-const usersList =
-document.getElementById("usersList");
+const switchAuth =
+document.getElementById("switchAuth");
+
+const username =
+document.getElementById("username");
+
+const logoutBtn =
+document.getElementById("logoutBtn");
+
+const status =
+document.getElementById("status");
 
 const messages =
 document.getElementById("messages");
@@ -677,517 +419,201 @@ document.getElementById("message");
 const send =
 document.getElementById("send");
 
-const status =
-document.getElementById("status");
 
-const chatTitle =
-document.getElementById("chatTitle");
-
-const globalRoom =
-document.getElementById("globalRoom");
-
-const logoutBtn =
-document.getElementById("logoutBtn");
+let loginMode = false;
 
 
+switchAuth.addEventListener("click", () => {
 
-/* VARIABLES */
+  loginMode = !loginMode;
 
-let currentUser = null;
+  if(loginMode){
 
-let currentProfile = null;
+    authTitle.textContent =
+    "WELCOME BACK";
 
-let activeChat = "global";
+    authSubtitle.textContent =
+    "Login to continue";
 
-let unsubscribeMessages = null;
+    nameInput.style.display =
+    "none";
 
+    authButton.textContent =
+    "Login";
 
-
-/* LOGIN */
-
-loginBtn.addEventListener(
-  "click",
-  async () => {
-
-    const username =
-    usernameInput.value.trim();
-
-    if (username.length < 2) {
-
-      alert(
-        "Please enter a username with at least 2 characters."
-      );
-
-      return;
-
-    }
-
-
-    loginBtn.disabled = true;
-
-    loginBtn.textContent =
-    "Joining...";
-
-
-    try {
-
-      await signInAnonymously(auth);
-
-
-      localStorage.setItem(
-        "cyberNyzaUsername",
-        username
-      );
-
-
-    }
-
-    catch (error) {
-
-      console.error(error);
-
-      alert(
-        "Login error: " + error.code
-      );
-
-    }
-
-    finally {
-
-      loginBtn.disabled = false;
-
-      loginBtn.textContent =
-      "Enter Chat";
-
-    }
+    switchAuth.textContent =
+    "New user? Create account";
 
   }
-);
+
+  else{
+
+    authTitle.textContent =
+    "CYBER NYZA";
+
+    authSubtitle.textContent =
+    "Create your account";
+
+    nameInput.style.display =
+    "block";
+
+    authButton.textContent =
+    "Register";
+
+    switchAuth.textContent =
+    "Already have an account? Login";
+
+  }
+
+});
 
 
+authButton.addEventListener(
+"click",
+async () => {
 
-/* AUTH STATE */
+  const name =
+  nameInput.value.trim();
 
-onAuthStateChanged(
-  auth,
+  const email =
+  emailInput.value.trim();
 
-  async (user) => {
-
-    if (!user) {
-
-      currentUser = null;
-
-      loginScreen.style.display =
-      "flex";
-
-      appScreen.style.display =
-      "none";
-
-      return;
-
-    }
+  const password =
+  passwordInput.value;
 
 
-    currentUser = user;
+  if(!email || !password){
 
-
-    let username =
-    localStorage.getItem(
-      "cyberNyzaUsername"
+    alert(
+    "Enter email and password"
     );
 
+    return;
 
-    if (!username) {
-
-      username =
-      "User-" +
-      user.uid.substring(0, 5);
-
-    }
+  }
 
 
-    const userRef =
-    doc(
-      db,
-      "users",
-      user.uid
-    );
+  authButton.disabled =
+  true;
 
 
-    const existing =
-    await getDoc(userRef);
+  try{
 
+    if(loginMode){
 
-    if (existing.exists()) {
-
-      currentProfile =
-      existing.data();
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
     }
 
-    else {
+    else{
 
-      currentProfile = {
+      if(!name){
 
-        username: username,
+        alert(
+        "Enter your username"
+        );
 
-        photo:
-        "https://ui-avatars.com/api/?name=" +
-        encodeURIComponent(username),
+        authButton.disabled =
+        false;
 
-      };
+        return;
 
-    }
-
-
-    await setDoc(
-      userRef,
-
-      {
-
-        username:
-        currentProfile.username ||
-        username,
-
-        photo:
-        currentProfile.photo ||
-        "https://ui-avatars.com/api/?name=" +
-        encodeURIComponent(username),
-
-        online: true,
-
-        updatedAt:
-        serverTimestamp()
-
-      },
-
-      {
-        merge: true
       }
 
+
+      const userCredential =
+      await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+
+      await updateProfile(
+        userCredential.user,
+        {
+          displayName:name
+        }
+      );
+
+    }
+
+
+    passwordInput.value =
+    "";
+
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      "Error: " +
+      error.message
     );
 
+  }
 
-    currentProfile.username =
-    username;
+  finally{
+
+    authButton.disabled =
+    false;
+
+  }
+
+});
 
 
-    loginScreen.style.display =
+logoutBtn.addEventListener(
+"click",
+async () => {
+
+  await signOut(auth);
+
+});
+
+
+onAuthStateChanged(
+auth,
+(user) => {
+
+  if(user){
+
+    authScreen.style.display =
     "none";
 
     appScreen.style.display =
     "block";
 
 
-    myName.textContent =
-    username;
+    username.textContent =
+    user.displayName ||
+    user.email;
 
-
-    const photo =
-    currentProfile.photo ||
-    "https://ui-avatars.com/api/?name=" +
-    encodeURIComponent(username);
-
-
-    profileAvatar.src =
-    photo;
-
-    topAvatar.src =
-    photo;
-
-
-    loadUsers();
-
-    openGlobalChat();
+    startChat(user);
 
   }
 
-);
+  else{
 
+    authScreen.style.display =
+    "flex";
 
-
-/* USERS LIST */
-
-function loadUsers() {
-
-  const usersRef =
-  collection(
-    db,
-    "users"
-  );
-
-
-  onSnapshot(
-    usersRef,
-
-    (snapshot) => {
-
-      usersList.innerHTML =
-      "";
-
-
-      snapshot.forEach(
-        (userDoc) => {
-
-          const data =
-          userDoc.data();
-
-
-          if (
-            userDoc.id ===
-            currentUser.uid
-          ) return;
-
-
-          const item =
-          document.createElement("div");
-
-          item.className =
-          "userItem";
-
-
-          const img =
-          document.createElement("img");
-
-          img.className =
-          "smallAvatar";
-
-          img.src =
-          data.photo ||
-          "https://ui-avatars.com/api/?name=" +
-          encodeURIComponent(
-            data.username ||
-            "User"
-          );
-
-
-          const info =
-          document.createElement("div");
-
-          info.className =
-          "userInfo";
-
-
-          const name =
-          document.createElement("div");
-
-          name.className =
-          "userName";
-
-          name.textContent =
-          data.username ||
-          "User";
-
-
-          const online =
-          document.createElement("div");
-
-          online.className =
-          data.online
-          ? "online"
-          : "offline";
-
-
-          online.textContent =
-          data.online
-          ? "🟢 Online"
-          : "⚫ Offline";
-
-
-          info.appendChild(name);
-
-          info.appendChild(online);
-
-
-          item.appendChild(img);
-
-          item.appendChild(info);
-
-
-          item.addEventListener(
-            "click",
-
-            () => {
-
-              openPrivateChat(
-                userDoc.id,
-                data
-              );
-
-            }
-
-          );
-
-
-          usersList.appendChild(
-            item
-          );
-
-        }
-
-      );
-
-    }
-
-  );
-
-}
-
-
-
-/* GLOBAL CHAT */
-
-globalRoom.addEventListener(
-  "click",
-
-  () => {
-
-    openGlobalChat();
+    appScreen.style.display =
+    "none";
 
   }
 
-);
+});
 
 
-function openGlobalChat() {
-
-  activeChat =
-  "global";
-
-
-  globalRoom.classList.add(
-    "active"
-  );
-
-
-  chatTitle.textContent =
-  "🌍 Global Chat";
-
-
-  status.textContent =
-  "🟢 Firebase connected";
-
-
-  const messagesRef =
-  collection(
-    db,
-    "messages"
-  );
-
-
-  listenMessages(
-    messagesRef
-  );
-
-}
-
-
-
-/* PRIVATE CHAT */
-
-async function openPrivateChat(
-  otherUserId,
-  otherUser
-) {
-
-  globalRoom.classList.remove(
-    "active"
-  );
-
-
-  const ids = [
-    currentUser.uid,
-    otherUserId
-  ].sort();
-
-
-  const chatId =
-  ids.join("_");
-
-
-  activeChat =
-  chatId;
-
-
-  chatTitle.textContent =
-  "💬 " +
-  (
-    otherUser.username ||
-    "Private Chat"
-  );
-
-
-  status.textContent =
-  otherUser.online
-  ? "🟢 Online"
-  : "⚫ Offline";
-
-
-  const conversationRef =
-  doc(
-    db,
-    "conversations",
-    chatId
-  );
-
-
-  const conversation =
-  await getDoc(
-    conversationRef
-  );
-
-
-  if (!conversation.exists()) {
-
-    await setDoc(
-      conversationRef,
-
-      {
-
-        participants:
-        ids,
-
-        createdAt:
-        serverTimestamp()
-
-      }
-
-    );
-
-  }
-
-
-  const messagesRef =
-  collection(
-    db,
-    "conversations",
-    chatId,
-    "messages"
-  );
-
-
-  listenMessages(
-    messagesRef
-  );
-
-}
-
-
-
-/* LISTEN MESSAGES */
-
-function listenMessages(
-  messagesRef
-) {
-
-  if (
-    unsubscribeMessages
-  ) {
-
-    unsubscribeMessages();
-
-  }
-
+function startChat(user){
 
   const q =
   query(
@@ -1199,460 +625,201 @@ function listenMessages(
   );
 
 
-  unsubscribeMessages =
   onSnapshot(
+  q,
+  (snapshot) => {
 
-    q,
+    messages.innerHTML =
+    "";
 
-    (snapshot) => {
+
+    if(snapshot.empty){
 
       messages.innerHTML =
-      "";
+      '<div class="empty">No messages yet. Send the first message! 👋</div>';
 
+    }
 
-      if (
-        snapshot.empty
-      ) {
-
-        messages.innerHTML =
-        '<div class="empty">No messages yet. Send the first message! 👋</div>';
-
-        return;
-
-      }
-
+    else{
 
       snapshot.forEach(
-        (messageDoc) => {
+      (doc) => {
 
-          const data =
-          messageDoc.data();
-
-
-          const div =
-          document.createElement("div");
+        const data =
+        doc.data();
 
 
-          div.className =
-          "msg";
+        const div =
+        document.createElement("div");
 
 
-          if (
-            data.uid ===
-            currentUser.uid
-          ) {
-
-            div.classList.add(
-              "mine"
-            );
-
-          }
+        div.className =
+        "msg";
 
 
-          if (
-            data.uid !==
-            currentUser.uid
-          ) {
+        if(
+          data.uid ===
+          user.uid
+        ){
 
-            const sender =
-            document.createElement(
-              "div"
-            );
-
-            sender.className =
-            "sender";
-
-            sender.textContent =
-            data.username ||
-            "User";
-
-            div.appendChild(
-              sender
-            );
-
-          }
-
-
-          const text =
-          document.createElement(
-            "div"
-          );
-
-          text.textContent =
-          data.text ||
-          "";
-
-
-          div.appendChild(
-            text
-          );
-
-
-          if (
-            data.createdAt
-          ) {
-
-            const time =
-            document.createElement(
-              "span"
-            );
-
-            time.className =
-            "time";
-
-
-            time.textContent =
-            data.createdAt
-            .toDate()
-            .toLocaleString();
-
-
-            div.appendChild(
-              time
-            );
-
-          }
-
-
-          messages.appendChild(
-            div
+          div.classList.add(
+          "own"
           );
 
         }
 
-      );
+
+        const name =
+        document.createElement("div");
+
+        name.className =
+        "msgName";
+
+        name.textContent =
+        data.name ||
+        "User";
+
+
+        const text =
+        document.createElement("div");
+
+        text.textContent =
+        data.text ||
+        "";
+
+
+        div.appendChild(name);
+
+        div.appendChild(text);
+
+
+        if(data.createdAt){
+
+          const time =
+          document.createElement("span");
+
+          time.className =
+          "time";
+
+          time.textContent =
+          data.createdAt
+          .toDate()
+          .toLocaleString();
+
+
+          div.appendChild(time);
+
+        }
+
+
+        messages.appendChild(div);
+
+      });
 
 
       messages.scrollTop =
       messages.scrollHeight;
 
-
-    },
-
-    (error) => {
-
-      console.error(
-        error
-      );
-
-      status.textContent =
-      "🔴 Firebase error: " +
-      error.code;
-
     }
 
-  );
+
+    status.textContent =
+    "🟢 Connected";
+
+  },
+
+  (error) => {
+
+    console.error(error);
+
+    status.textContent =
+    "🔴 Firebase error: " +
+    error.code;
+
+  });
 
 }
 
 
-
-/* SEND MESSAGE */
-
 form.addEventListener(
-  "submit",
+"submit",
+async (e) => {
 
-  async (e) => {
-
-    e.preventDefault();
-
-
-    const text =
-    input.value.trim();
+  e.preventDefault();
 
 
-    if (!text) return;
+  const text =
+  input.value.trim();
 
+
+  if(!text) return;
+
+
+  const user =
+  auth.currentUser;
+
+
+  if(!user){
+
+    alert(
+    "Please login first"
+    );
+
+    return;
+
+  }
+
+
+  send.disabled =
+  true;
+
+
+  try{
+
+    await addDoc(
+    messagesRef,
+    {
+
+      text:text,
+
+      name:
+      user.displayName ||
+      user.email,
+
+      uid:
+      user.uid,
+
+      createdAt:
+      serverTimestamp()
+
+    });
+
+
+    input.value =
+    "";
+
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    alert(
+      "Message send error: " +
+      error.code
+    );
+
+  }
+
+  finally{
 
     send.disabled =
-    true;
-
-
-    try {
-
-      let messagesRef;
-
-
-      if (
-        activeChat ===
-        "global"
-      ) {
-
-        messagesRef =
-        collection(
-          db,
-          "messages"
-        );
-
-      }
-
-      else {
-
-        messagesRef =
-        collection(
-          db,
-          "conversations",
-          activeChat,
-          "messages"
-        );
-
-      }
-
-
-      await addDoc(
-
-        messagesRef,
-
-        {
-
-          text: text,
-
-          uid:
-          currentUser.uid,
-
-          username:
-          currentProfile.username,
-
-          photo:
-          currentProfile.photo,
-
-          createdAt:
-          serverTimestamp()
-
-        }
-
-      );
-
-
-      input.value =
-      "";
-
-
-    }
-
-    catch (error) {
-
-      console.error(
-        error
-      );
-
-      alert(
-        "Message error: " +
-        error.code
-      );
-
-    }
-
-    finally {
-
-      send.disabled =
-      false;
-
-    }
+    false;
 
   }
 
-);
-
-
-
-/* PROFILE PHOTO */
-
-photoInput.addEventListener(
-  "change",
-
-  async () => {
-
-    const file =
-    photoInput.files[0];
-
-
-    if (!file) return;
-
-
-    if (
-      !file.type.startsWith(
-        "image/"
-      )
-    ) {
-
-      alert(
-        "Please select an image."
-      );
-
-      return;
-
-    }
-
-
-    try {
-
-      status.textContent =
-      "Uploading photo...";
-
-
-      const storageRef =
-      ref(
-
-        storage,
-
-        "profilePhotos/" +
-        currentUser.uid +
-        "/" +
-        Date.now() +
-        "_" +
-        file.name
-
-      );
-
-
-      await uploadBytes(
-        storageRef,
-        file
-      );
-
-
-      const photoURL =
-      await getDownloadURL(
-        storageRef
-      );
-
-
-      await updateDoc(
-
-        doc(
-          db,
-          "users",
-          currentUser.uid
-        ),
-
-        {
-
-          photo:
-          photoURL
-
-        }
-
-      );
-
-
-      currentProfile.photo =
-      photoURL;
-
-
-      profileAvatar.src =
-      photoURL;
-
-      topAvatar.src =
-      photoURL;
-
-
-      status.textContent =
-      "🟢 Photo updated";
-
-
-    }
-
-    catch (error) {
-
-      console.error(
-        error
-      );
-
-      alert(
-        "Photo upload error: " +
-        error.code
-      );
-
-    }
-
-  }
-
-);
-
-
-
-/* LOGOUT */
-
-logoutBtn.addEventListener(
-  "click",
-
-  async () => {
-
-    try {
-
-      await updateDoc(
-
-        doc(
-          db,
-          "users",
-          currentUser.uid
-        ),
-
-        {
-
-          online:
-          false
-
-        }
-
-      );
-
-
-      await signOut(
-        auth
-      );
-
-
-    }
-
-    catch (error) {
-
-      console.error(
-        error
-      );
-
-    }
-
-  }
-
-);
-
-
-
-/* TRY TO MARK OFFLINE */
-
-window.addEventListener(
-  "beforeunload",
-
-  () => {
-
-    if (
-      currentUser
-    ) {
-
-      updateDoc(
-
-        doc(
-          db,
-          "users",
-          currentUser.uid
-        ),
-
-        {
-
-          online:
-          false
-
-        }
-
-      );
-
-    }
-
-  }
-
-);
+});
 
 </script>
 
