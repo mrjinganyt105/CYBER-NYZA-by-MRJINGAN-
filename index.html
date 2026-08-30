@@ -2,493 +2,252 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CYBER NYZA - Personal Chat</title>
+<title>CYBER NYZA CHAT</title>
 
 <style>
+
 *{
-  box-sizing:border-box;
   margin:0;
   padding:0;
-  font-family:Arial,Helvetica,sans-serif;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
 }
 
 body{
-  background:#080d1d;
-  color:white;
-  min-height:100vh;
-}
-
-/* AUTH */
-
-#authPage{
-  min-height:100vh;
+  background:#0f172a;
+  height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  padding:20px;
-  background:
-    radial-gradient(circle at top left,#1d2855 0%,transparent 40%),
-    radial-gradient(circle at bottom right,#301653 0%,transparent 40%),
-    #080d1d;
 }
 
-.auth-box{
+.chat-container{
   width:100%;
-  max-width:460px;
-  padding:40px 30px;
-  border:1px solid #34415f;
-  border-radius:30px;
-  background:#161d30;
-  box-shadow:0 20px 70px rgba(0,0,0,.4);
-}
-
-.logo{
-  text-align:center;
-  margin-bottom:35px;
-}
-
-.logo h1{
-  font-size:36px;
-  letter-spacing:3px;
-}
-
-.logo p{
-  color:#aab5d0;
-  margin-top:10px;
-  font-size:18px;
-}
-
-.tabs{
-  display:flex;
-  background:#0d1323;
-  padding:8px;
-  border-radius:20px;
-  margin-bottom:30px;
-}
-
-.tabs button{
-  width:50%;
-  padding:16px;
-  border:none;
-  background:transparent;
-  color:#b7c0d7;
-  font-size:20px;
-  border-radius:16px;
-}
-
-.tabs button.active{
-  background:linear-gradient(135deg,#4568dc,#673ab7);
-  color:white;
-}
-
-input{
-  width:100%;
-  padding:18px;
-  margin-top:10px;
-  margin-bottom:20px;
-  background:#0d1323;
-  border:1px solid #3c4b6c;
-  border-radius:15px;
-  color:white;
-  font-size:17px;
-}
-
-label{
-  color:#c5cee3;
-  font-size:17px;
-}
-
-.main-btn{
-  width:100%;
-  padding:18px;
-  border:none;
-  border-radius:16px;
-  background:linear-gradient(135deg,#4568dc,#673ab7);
-  color:white;
-  font-size:20px;
-  font-weight:bold;
-}
-
-.error{
-  color:#ff8b8b;
-  margin-top:15px;
-  text-align:center;
-}
-
-/* CHAT */
-
-#chatPage{
-  display:none;
-  min-height:100vh;
-}
-
-header{
-  padding:20px;
-  background:#121a2d;
-  border-bottom:1px solid #293652;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.brand h2{
-  font-size:25px;
-}
-
-.brand p{
-  color:#9da9c6;
-  margin-top:5px;
-}
-
-.logout{
-  border:none;
-  background:#273149;
-  color:white;
-  padding:13px 20px;
-  border-radius:15px;
-  font-size:16px;
-}
-
-.container{
-  display:flex;
-  height:calc(100vh - 90px);
-}
-
-.sidebar{
-  width:320px;
-  background:#10172a;
-  border-right:1px solid #293652;
-  padding:15px;
-}
-
-.myuid{
-  background:#1b253d;
-  padding:14px;
-  border-radius:15px;
-  margin-bottom:15px;
-  color:#b9c5e4;
-  font-size:13px;
-  word-break:break-all;
-}
-
-.add-contact{
-  display:flex;
-  gap:8px;
-  margin-bottom:15px;
-}
-
-.add-contact input{
-  margin:0;
-  padding:13px;
-  font-size:14px;
-}
-
-.add-contact button{
-  border:none;
-  padding:10px 14px;
-  border-radius:12px;
-  background:#506de0;
-  color:white;
-  font-size:18px;
-}
-
-.contact{
-  padding:16px;
-  border-radius:15px;
-  background:#192238;
-  margin-bottom:10px;
-  cursor:pointer;
-}
-
-.contact:hover{
-  background:#24304c;
-}
-
-.contact small{
-  display:block;
-  color:#9da9c6;
-  margin-top:5px;
-  word-break:break-all;
-}
-
-.chat-area{
-  flex:1;
+  max-width:500px;
+  height:100vh;
+  background:#111827;
   display:flex;
   flex-direction:column;
-  background:#090f20;
 }
 
-.chat-title{
-  padding:20px;
-  border-bottom:1px solid #293652;
-  font-size:20px;
+/* HEADER */
+
+.header{
+  height:70px;
+  background:#2563eb;
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  color:white;
+  box-shadow:0 2px 10px rgba(0,0,0,0.3);
 }
 
-.messages{
+.profile{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:white;
+  color:#2563eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  font-weight:bold;
+  margin-right:12px;
+}
+
+.header h2{
+  font-size:18px;
+}
+
+.status{
+  font-size:12px;
+  opacity:.8;
+  margin-top:4px;
+}
+
+/* CHAT AREA */
+
+#chatBox{
   flex:1;
   overflow-y:auto;
-  padding:20px;
+  padding:20px 15px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
+
+/* MESSAGE */
 
 .message{
   max-width:75%;
-  padding:12px 16px;
-  margin-bottom:12px;
+  padding:12px 15px;
   border-radius:18px;
+  font-size:16px;
+  line-height:1.4;
   word-wrap:break-word;
 }
 
-.sent{
-  margin-left:auto;
-  background:linear-gradient(135deg,#4568dc,#673ab7);
-  border-bottom-right-radius:4px;
-}
-
-.received{
-  background:#242d42;
-  border-bottom-left-radius:4px;
-}
-
-.message-time{
-  display:block;
-  font-size:11px;
-  opacity:.7;
-  margin-top:6px;
-}
-
-.message-form{
-  display:flex;
-  gap:10px;
-  padding:15px;
-  border-top:1px solid #293652;
-}
-
-.message-form input{
-  margin:0;
-  flex:1;
-}
-
-.message-form button{
-  padding:0 25px;
-  border:none;
-  border-radius:15px;
-  background:#506de0;
+.my-message{
+  align-self:flex-end;
+  background:#2563eb;
   color:white;
-  font-size:18px;
+  border-bottom-right-radius:5px;
 }
 
-.empty{
-  color:#8d98b5;
+.other-message{
+  align-self:flex-start;
+  background:#374151;
+  color:white;
+  border-bottom-left-radius:5px;
+}
+
+/* INPUT */
+
+.input-area{
+  display:flex;
+  padding:12px;
+  background:#1f2937;
+  gap:10px;
+  border-top:1px solid #374151;
+}
+
+#messageInput{
+  flex:1;
+  border:none;
+  outline:none;
+  padding:14px;
+  border-radius:25px;
+  font-size:16px;
+  background:#374151;
+  color:white;
+}
+
+#messageInput::placeholder{
+  color:#9ca3af;
+}
+
+button{
+  border:none;
+  background:#2563eb;
+  color:white;
+  width:55px;
+  border-radius:50%;
+  font-size:20px;
+  cursor:pointer;
+}
+
+button:active{
+  transform:scale(.95);
+}
+
+.loading{
   text-align:center;
-  margin-top:50px;
+  color:#9ca3af;
+  margin-top:20px;
 }
 
-/* MOBILE */
-
-@media(max-width:700px){
-
-  .container{
-    height:calc(100vh - 86px);
-  }
-
-  .sidebar{
-    width:100%;
-  }
-
-  .chat-area{
-    display:none;
-  }
-
-  .sidebar.hide{
-    display:none;
-  }
-
-  .chat-area.show{
-    display:flex;
-    width:100%;
-  }
-
-}
 </style>
 </head>
 
+
 <body>
 
-<!-- LOGIN PAGE -->
+<div class="chat-container">
 
-<div id="authPage">
+  <!-- HEADER -->
 
-  <div class="auth-box">
+  <div class="header">
 
-    <div class="logo">
-      <h1>⚡ CYBER NYZA</h1>
-      <p>Personal Real-time Chat</p>
+    <div class="profile">
+      C
     </div>
 
-    <div class="tabs">
-      <button id="loginTab" class="active">Login</button>
-      <button id="signupTab">Sign Up</button>
-    </div>
-
-    <form id="authForm">
-
-      <label>Email</label>
-
-      <input
-        type="email"
-        id="email"
-        placeholder="Enter your email"
-        required
-      >
-
-      <label>Password</label>
-
-      <input
-        type="password"
-        id="password"
-        placeholder="Enter your password"
-        required
-      >
-
-      <button class="main-btn" id="authButton">
-        Login
-      </button>
-
-    </form>
-
-    <p class="error" id="error"></p>
-
-  </div>
-
-</div>
-
-
-<!-- CHAT PAGE -->
-
-<div id="chatPage">
-
-<header>
-
-  <div class="brand">
-    <h2>⚡ CYBER NYZA</h2>
-    <p id="userEmail">Personal Chat</p>
-  </div>
-
-  <button class="logout" id="logoutBtn">
-    Logout
-  </button>
-
-</header>
-
-
-<div class="container">
-
-  <div class="sidebar" id="sidebar">
-
-    <div class="myuid">
-      <b>My Chat ID</b><br><br>
-      <span id="myUID"></span>
-    </div>
-
-    <div class="add-contact">
-
-      <input
-        type="text"
-        id="contactUID"
-        placeholder="Paste friend's Chat ID"
-      >
-
-      <button id="addContactBtn">+</button>
-
-    </div>
-
-    <div id="contacts"></div>
-
-  </div>
-
-
-  <div class="chat-area" id="chatArea">
-
-    <div class="chat-title" id="chatTitle">
-      Select a contact to start chatting
-    </div>
-
-    <div class="messages" id="messages">
-
-      <div class="empty">
-        Select a personal contact 👋
+    <div>
+      <h2>CYBER NYZA</h2>
+      <div class="status" id="status">
+        Connecting...
       </div>
-
     </div>
 
+  </div>
 
-    <form class="message-form" id="messageForm">
 
-      <input
-        type="text"
-        id="messageInput"
-        placeholder="Type a message..."
-        autocomplete="off"
-      >
+  <!-- CHAT -->
 
-      <button>Send</button>
+  <div id="chatBox">
 
-    </form>
+    <div class="loading" id="loading">
+      Connecting to chat...
+    </div>
+
+  </div>
+
+
+  <!-- INPUT -->
+
+  <div class="input-area">
+
+    <input
+      type="text"
+      id="messageInput"
+      placeholder="Type a message..."
+      autocomplete="off"
+    >
+
+    <button onclick="sendMessage()">
+      ➤
+    </button>
 
   </div>
 
 </div>
 
-</div>
 
 
 <script type="module">
+
+/* FIREBASE IMPORTS */
 
 import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
 import {
+  getDatabase,
+  ref,
+  push,
+  onChildAdded
+}
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+
+import {
   getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
+  signInAnonymously,
   onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
-import {
-  getDatabase,
-  ref,
-  set,
-  push,
-  onValue,
-  get
-}
-from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
 
-
-// FIREBASE CONFIG
+/* YOUR FIREBASE CONFIG */
 
 const firebaseConfig = {
 
   apiKey: "AIzaSyDG6dW07j-tfClCQ1o2B5GgyqBED1ZUx8s",
 
-  authDomain:
-  "cyber-nyza-by-mrjingan-9d4c3.firebaseapp.com",
+  authDomain: "cyber-nyza-by-mrjingan-9d4c3.firebaseapp.com",
 
   databaseURL:
   "https://cyber-nyza-by-mrjingan-9d4c3-default-rtdb.firebaseio.com",
 
-  projectId:
-  "cyber-nyza-by-mrjingan-9d4c3",
+  projectId: "cyber-nyza-by-mrjingan-9d4c3",
 
   storageBucket:
   "cyber-nyza-by-mrjingan-9d4c3.firebasestorage.app",
 
-  messagingSenderId:
-  "246846891948",
+  messagingSenderId: "246846891948",
 
   appId:
   "1:246846891948:web:7054c940ea7b9eefce3c09"
@@ -496,608 +255,165 @@ const firebaseConfig = {
 };
 
 
-const app = initializeApp(firebaseConfig);
+/* INITIALIZE FIREBASE */
 
-const auth = getAuth(app);
+const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
 
-
-// ELEMENTS
-
-const authPage =
-document.getElementById("authPage");
-
-const chatPage =
-document.getElementById("chatPage");
-
-const authForm =
-document.getElementById("authForm");
-
-const emailInput =
-document.getElementById("email");
-
-const passwordInput =
-document.getElementById("password");
-
-const errorText =
-document.getElementById("error");
-
-const loginTab =
-document.getElementById("loginTab");
-
-const signupTab =
-document.getElementById("signupTab");
-
-const authButton =
-document.getElementById("authButton");
-
-const myUID =
-document.getElementById("myUID");
-
-const userEmail =
-document.getElementById("userEmail");
-
-const logoutBtn =
-document.getElementById("logoutBtn");
-
-const contactUID =
-document.getElementById("contactUID");
-
-const addContactBtn =
-document.getElementById("addContactBtn");
-
-const contacts =
-document.getElementById("contacts");
-
-const messages =
-document.getElementById("messages");
-
-const messageForm =
-document.getElementById("messageForm");
-
-const messageInput =
-document.getElementById("messageInput");
-
-const chatTitle =
-document.getElementById("chatTitle");
+const auth = getAuth(app);
 
 
-let signupMode = false;
+/* CHAT ROOM */
 
-let currentContact = null;
-
-let currentChatListener = null;
-
-
-// LOGIN / SIGNUP TABS
-
-loginTab.onclick = () => {
-
-  signupMode = false;
-
-  loginTab.classList.add("active");
-
-  signupTab.classList.remove("active");
-
-  authButton.textContent = "Login";
-
-};
+const messagesRef = ref(
+  db,
+  "personal_chat/messages"
+);
 
 
-signupTab.onclick = () => {
-
-  signupMode = true;
-
-  signupTab.classList.add("active");
-
-  loginTab.classList.remove("active");
-
-  authButton.textContent = "Create Account";
-
-};
+let currentUser = null;
 
 
-// AUTH FORM
+/* ANONYMOUS LOGIN */
 
-authForm.addEventListener("submit", async (e) => {
+signInAnonymously(auth)
 
-  e.preventDefault();
+.then(() => {
 
-  errorText.textContent = "";
+  console.log("Anonymous login successful");
 
-  const email = emailInput.value.trim();
+})
 
-  const password = passwordInput.value;
+.catch((error) => {
 
+  console.error(error);
 
-  try{
+  document.getElementById("status").innerText =
+  "Connection failed";
 
-    if(signupMode){
-
-      const result =
-      await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+});
 
 
-      await set(
-        ref(db, "users/" + result.user.uid),
-        {
-          email: email,
-          createdAt: Date.now()
-        }
-      );
+/* AUTH STATUS */
 
-    }
+onAuthStateChanged(auth, (user) => {
 
-    else{
+  if(user){
 
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+    currentUser = user;
 
-    }
+    document.getElementById("status").innerText =
+    "Online";
 
-  }
-
-  catch(error){
-
-    errorText.textContent =
-    error.message;
+    document.getElementById("loading").style.display =
+    "none";
 
   }
 
 });
 
 
-// AUTH STATE
+/* SEND MESSAGE */
 
-onAuthStateChanged(auth, async (user) => {
+window.sendMessage = function(){
 
-  if(user){
+  const input =
+  document.getElementById("messageInput");
 
-    authPage.style.display = "none";
-
-    chatPage.style.display = "block";
-
-    myUID.textContent = user.uid;
-
-    userEmail.textContent =
-    user.email + " • Personal Chat";
+  const message =
+  input.value.trim();
 
 
-    const userRef =
-    ref(db, "users/" + user.uid);
+  if(message === "") return;
 
 
-    const snapshot =
-    await get(userRef);
+  if(!currentUser){
+
+    alert("Connecting... Please wait.");
+
+    return;
+
+  }
 
 
-    if(!snapshot.exists()){
+  push(messagesRef, {
 
-      await set(userRef,{
-        email:user.email,
-        createdAt:Date.now()
-      });
+    text:message,
 
-    }
+    uid:currentUser.uid,
+
+    time:Date.now()
+
+  });
 
 
-    loadContacts();
+  input.value = "";
+
+};
+
+
+/* ENTER KEY SEND */
+
+document
+.getElementById("messageInput")
+
+.addEventListener("keypress", function(event){
+
+  if(event.key === "Enter"){
+
+    sendMessage();
+
+  }
+
+});
+
+
+/* RECEIVE MESSAGES */
+
+onChildAdded(messagesRef, (data) => {
+
+  const message = data.val();
+
+  const chatBox =
+  document.getElementById("chatBox");
+
+
+  const messageDiv =
+  document.createElement("div");
+
+
+  messageDiv.classList.add("message");
+
+
+  if(
+    currentUser &&
+    message.uid === currentUser.uid
+  ){
+
+    messageDiv.classList.add("my-message");
 
   }
 
   else{
 
-    authPage.style.display = "flex";
-
-    chatPage.style.display = "none";
+    messageDiv.classList.add("other-message");
 
   }
+
+
+  messageDiv.innerText =
+  message.text;
+
+
+  chatBox.appendChild(messageDiv);
+
+
+  chatBox.scrollTop =
+  chatBox.scrollHeight;
 
 });
 
-
-// LOGOUT
-
-logoutBtn.onclick = () => {
-
-  signOut(auth);
-
-};
-
-
-// ADD CONTACT
-
-addContactBtn.onclick = async () => {
-
-  const friendUID =
-  contactUID.value.trim();
-
-
-  if(!friendUID){
-
-    alert("Enter friend's Chat ID");
-
-    return;
-
-  }
-
-
-  if(friendUID === auth.currentUser.uid){
-
-    alert("You cannot add yourself");
-
-    return;
-
-  }
-
-
-  const friendCheck =
-  await get(
-    ref(db,"users/" + friendUID)
-  );
-
-
-  if(!friendCheck.exists()){
-
-    alert("User not found. Check the Chat ID.");
-
-    return;
-
-  }
-
-
-  const friendData =
-  friendCheck.val();
-
-
-  await set(
-
-    ref(
-      db,
-      "users/" +
-      auth.currentUser.uid +
-      "/contacts/" +
-      friendUID
-    ),
-
-    {
-      email:friendData.email,
-      uid:friendUID
-    }
-
-  );
-
-
-  contactUID.value = "";
-
-};
-
-
-// LOAD CONTACTS
-
-function loadContacts(){
-
-  const user =
-  auth.currentUser;
-
-
-  const contactsRef =
-  ref(
-    db,
-    "users/" +
-    user.uid +
-    "/contacts"
-  );
-
-
-  onValue(
-    contactsRef,
-    (snapshot) => {
-
-      contacts.innerHTML = "";
-
-
-      if(!snapshot.exists()){
-
-        contacts.innerHTML =
-        `<div class="empty">
-          No contacts yet.<br><br>
-          Share your Chat ID with a friend.
-        </div>`;
-
-        return;
-
-      }
-
-
-      snapshot.forEach(
-        child => {
-
-          const data =
-          child.val();
-
-
-          const div =
-          document.createElement("div");
-
-
-          div.className =
-          "contact";
-
-
-          div.innerHTML =
-
-          `<b>${data.email || "Contact"}</b>
-           <small>${data.uid}</small>`;
-
-
-          div.onclick =
-          () => openChat(data.uid,data.email);
-
-
-          contacts.appendChild(div);
-
-        }
-      );
-
-    }
-  );
-
-}
-
-
-// CREATE DETERMINISTIC CHAT ID
-
-function getChatID(uid1,uid2){
-
-  return uid1 < uid2
-
-  ? uid1 + "_" + uid2
-
-  : uid2 + "_" + uid1;
-
-}
-
-
-// OPEN CHAT
-
-async function openChat(friendUID,friendEmail){
-
-  currentContact = friendUID;
-
-
-  chatTitle.textContent =
-  friendEmail || "Personal Chat";
-
-
-  messages.innerHTML = "";
-
-
-  const user =
-  auth.currentUser;
-
-
-  const chatID =
-  getChatID(
-    user.uid,
-    friendUID
-  );
-
-
-  await set(
-
-    ref(
-      db,
-      "chats/" +
-      chatID +
-      "/members/" +
-      user.uid
-    ),
-
-    true
-
-  );
-
-
-  await set(
-
-    ref(
-      db,
-      "chats/" +
-      chatID +
-      "/members/" +
-      friendUID
-    ),
-
-    true
-
-  );
-
-
-  const messagesRef =
-  ref(
-    db,
-    "chats/" +
-    chatID +
-    "/messages"
-  );
-
-
-  onValue(
-    messagesRef,
-    (snapshot) => {
-
-      messages.innerHTML = "";
-
-
-      if(!snapshot.exists()){
-
-        messages.innerHTML =
-        `<div class="empty">
-          Start the conversation 👋
-        </div>`;
-
-        return;
-
-      }
-
-
-      snapshot.forEach(
-        child => {
-
-          const msg =
-          child.val();
-
-
-          const div =
-          document.createElement("div");
-
-
-          div.className =
-          "message " +
-
-          (
-            msg.sender === user.uid
-
-            ? "sent"
-
-            : "received"
-          );
-
-
-          const time =
-          new Date(msg.timestamp)
-          .toLocaleTimeString(
-            [],
-            {
-              hour:"2-digit",
-              minute:"2-digit"
-            }
-          );
-
-
-          div.innerHTML =
-
-          `${escapeHTML(msg.text)}
-          <span class="message-time">
-          ${time}
-          </span>`;
-
-
-          messages.appendChild(div);
-
-        }
-      );
-
-
-      messages.scrollTop =
-      messages.scrollHeight;
-
-    }
-  );
-
-
-  // MOBILE VIEW
-
-  document
-  .getElementById("sidebar")
-  .classList
-  .add("hide");
-
-
-  document
-  .getElementById("chatArea")
-  .classList
-  .add("show");
-
-}
-
-
-// SEND MESSAGE
-
-messageForm.addEventListener(
-  "submit",
-  async (e) => {
-
-    e.preventDefault();
-
-
-    if(!currentContact){
-
-      alert("Select a contact first");
-
-      return;
-
-    }
-
-
-    const text =
-    messageInput.value.trim();
-
-
-    if(!text){
-
-      return;
-
-    }
-
-
-    const user =
-    auth.currentUser;
-
-
-    const chatID =
-    getChatID(
-      user.uid,
-      currentContact
-    );
-
-
-    const messagesRef =
-    ref(
-      db,
-      "chats/" +
-      chatID +
-      "/messages"
-    );
-
-
-    await push(
-      messagesRef,
-      {
-        sender:user.uid,
-        text:text,
-        timestamp:Date.now()
-      }
-    );
-
-
-    messageInput.value = "";
-
-  }
-);
-
-
-// SAFE HTML
-
-function escapeHTML(text){
-
-  const div =
-  document.createElement("div");
-
-  div.textContent = text;
-
-  return div.innerHTML;
-
-}
 
 </script>
 
