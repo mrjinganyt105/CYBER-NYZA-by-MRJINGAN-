@@ -2,161 +2,41 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CYBER NYZA Chat</title>
-
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background: #080b12;
-      color: white;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .app {
-      width: 100%;
-      max-width: 600px;
-      height: 100vh;
-      background: #111827;
-      display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      background: #1d4ed8;
-      padding: 18px;
-      font-size: 22px;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    .status {
-      text-align: center;
-      font-size: 12px;
-      padding: 8px;
-      color: #94a3b8;
-      background: #0f172a;
-    }
-
-    #messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .message {
-      background: #1e293b;
-      padding: 12px 15px;
-      border-radius: 12px;
-      max-width: 80%;
-      word-wrap: break-word;
-      align-self: flex-start;
-    }
-
-    .message-time {
-      display: block;
-      font-size: 10px;
-      color: #94a3b8;
-      margin-top: 5px;
-    }
-
-    .input-area {
-      display: flex;
-      gap: 8px;
-      padding: 12px;
-      background: #0f172a;
-    }
-
-    input {
-      flex: 1;
-      border: none;
-      outline: none;
-      padding: 14px;
-      border-radius: 25px;
-      font-size: 16px;
-      background: #1e293b;
-      color: white;
-    }
-
-    button {
-      border: none;
-      padding: 0 22px;
-      border-radius: 25px;
-      background: #2563eb;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:active {
-      transform: scale(0.96);
-    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+    body{background:#080b12;color:#fff;min-height:100vh;display:flex;justify-content:center}
+    .app{width:100%;max-width:700px;min-height:100vh;background:#111827}
+    header{background:linear-gradient(135deg,#3f51b5,#243b8f);padding:28px 18px;text-align:center;font-size:28px;font-weight:800;letter-spacing:1px}
+    #status{padding:10px;text-align:center;color:#b9c2d0;font-size:14px;border-bottom:1px solid #263142}
+    #messages{height:calc(100vh - 180px);overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+    .msg{background:#1f2937;padding:11px 14px;border-radius:14px;max-width:82%;align-self:flex-start;word-break:break-word}
+    .msg .time{display:block;color:#93a4b8;font-size:10px;margin-top:5px}
+    .empty{color:#8491a3;text-align:center;margin-top:40px}
+    .bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:700px;padding:12px;background:#111827;border-top:1px solid #263142;display:flex;gap:8px}
+    input{flex:1;border:0;border-radius:24px;padding:14px;background:#202b3c;color:white;outline:none;font-size:16px}
+    button{border:0;border-radius:24px;padding:0 20px;background:#4f63d8;color:white;font-size:16px;font-weight:bold}
+    button:disabled{opacity:.5}
   </style>
 </head>
-
 <body>
-
-  <div class="app">
-
-    <header>
-      CYBER NYZA CHAT
-    </header>
-
-    <div class="status" id="status">
-      Connecting to Firebase...
-    </div>
-
-    <div id="messages"></div>
-
-    <div class="input-area">
-      <input
-        type="text"
-        id="messageInput"
-        placeholder="Type a message..."
-      >
-
-      <button onclick="sendMessage()">
-        Send
-      </button>
-    </div>
-
-  </div>
-
+  <main class="app">
+    <header>CYBER NYZA CHAT</header>
+    <div id="status">Connecting to Firebase...</div>
+    <div id="messages"><div class="empty">Loading messages...</div></div>
+    <form class="bar" id="form">
+      <input id="message" placeholder="Type a message..." autocomplete="off">
+      <button id="send" type="submit">Send</button>
+    </form>
+  </main>
 
   <script type="module">
-
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
-      initializeApp
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      query,
-      orderBy,
-      onSnapshot,
-      serverTimestamp
+      getFirestore, collection, addDoc, query, orderBy,
+      onSnapshot, serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-
-    // FIREBASE CONFIG
 
     const firebaseConfig = {
       apiKey: "AIzaSyDG6dW07j-tfClCQ1o2B5GgyqBED1ZUx8s",
@@ -167,137 +47,71 @@
       appId: "1:246846891948:web:7054c940ea7b9eefce3c09"
     };
 
+    const status = document.getElementById("status");
+    const messages = document.getElementById("messages");
+    const form = document.getElementById("form");
+    const input = document.getElementById("message");
+    const send = document.getElementById("send");
 
-    // INITIALIZE FIREBASE
+    try {
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const messagesRef = collection(db, "messages");
+      const q = query(messagesRef, orderBy("createdAt", "asc"));
 
-    const app = initializeApp(firebaseConfig);
+      onSnapshot(q, (snapshot) => {
+        messages.innerHTML = "";
+        if (snapshot.empty) {
+          messages.innerHTML = '<div class="empty">No messages yet. Send the first message! 👋</div>';
+        } else {
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            const div = document.createElement("div");
+            div.className = "msg";
 
-    const db = getFirestore(app);
+            const text = document.createElement("div");
+            text.textContent = data.text || "";
+            div.appendChild(text);
 
+            if (data.createdAt) {
+              const time = document.createElement("span");
+              time.className = "time";
+              time.textContent = data.createdAt.toDate().toLocaleString();
+              div.appendChild(time);
+            }
+            messages.appendChild(div);
+          });
+          messages.scrollTop = messages.scrollHeight;
+        }
+        status.textContent = "🟢 Firebase connected";
+      }, (error) => {
+        console.error(error);
+        status.textContent = "🔴 Firebase error: " + error.code;
+        messages.innerHTML = '<div class="empty">Firebase connection error. Check Firestore Database and Rules.</div>';
+      });
 
-    const messagesDiv =
-      document.getElementById("messages");
-
-    const messageInput =
-      document.getElementById("messageInput");
-
-    const status =
-      document.getElementById("status");
-
-
-    // SEND MESSAGE
-
-    window.sendMessage = async function () {
-
-      const text =
-        messageInput.value.trim();
-
-      if (!text) return;
-
-      try {
-
-        await addDoc(
-          collection(db, "messages"),
-          {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const text = input.value.trim();
+        if (!text) return;
+        send.disabled = true;
+        try {
+          await addDoc(messagesRef, {
             text: text,
             createdAt: serverTimestamp()
-          }
-        );
-
-        messageInput.value = "";
-
-      }
-
-      catch (error) {
-
-        console.error(error);
-
-        alert(
-          "Message sending error. Check Firestore Rules."
-        );
-
-      }
-
-    };
-
-
-    // ENTER KEY SEND
-
-    messageInput.addEventListener(
-      "keypress",
-      function(event) {
-
-        if (event.key === "Enter") {
-
-          sendMessage();
-
+          });
+          input.value = "";
+        } catch (error) {
+          console.error(error);
+          alert("Message send error: " + error.code);
+        } finally {
+          send.disabled = false;
         }
-
-      }
-    );
-
-
-    // LOAD MESSAGES LIVE
-
-    const q = query(
-      collection(db, "messages"),
-      orderBy("createdAt", "asc")
-    );
-
-
-    onSnapshot(
-      q,
-
-      function(snapshot) {
-
-        messagesDiv.innerHTML = "";
-
-        snapshot.forEach(
-          function(doc) {
-
-            const data = doc.data();
-
-            const message =
-              document.createElement("div");
-
-            message.className =
-              "message";
-
-            const text =
-              document.createElement("div");
-
-            text.textContent =
-              data.text || "";
-
-            message.appendChild(text);
-
-            messagesDiv.appendChild(
-              message
-            );
-
-          }
-        );
-
-        messagesDiv.scrollTop =
-          messagesDiv.scrollHeight;
-
-        status.textContent =
-          "Connected to Firebase 🟢";
-
-      },
-
-      function(error) {
-
-        console.error(error);
-
-        status.textContent =
-          "Firebase connection error 🔴";
-
-      }
-
-    );
-
+      });
+    } catch (error) {
+      console.error(error);
+      status.textContent = "🔴 Firebase connection error";
+    }
   </script>
-
 </body>
 </html>
