@@ -3,676 +3,231 @@
 <head>
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
   <title>CYBER NYZA Chat</title>
 
   <style>
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: Arial, sans-serif;
     }
 
     body {
-      font-family: Arial, sans-serif;
       background: #080b12;
       color: white;
-      min-height: 100vh;
-    }
-
-    button,
-    input {
-      font-family: inherit;
-    }
-
-    /* LOGIN PAGE */
-
-    #authPage {
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
     }
 
-    .auth-card {
+    .app {
       width: 100%;
-      max-width: 400px;
-      background: #121826;
-      border: 1px solid #263044;
-      border-radius: 20px;
-      padding: 30px 22px;
-      box-shadow: 0 0 40px rgba(0, 100, 255, 0.15);
-    }
-
-    .logo {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .logo h1 {
-      font-size: 32px;
-      color: #4d8dff;
-      letter-spacing: 2px;
-    }
-
-    .logo p {
-      color: #9aa4b5;
-      margin-top: 8px;
-      font-size: 14px;
-    }
-
-    .auth-card input {
-      width: 100%;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 12px;
-      border: 1px solid #303c52;
-      background: #0b101a;
-      color: white;
-      outline: none;
-      font-size: 16px;
-    }
-
-    .auth-card input:focus {
-      border-color: #4d8dff;
-    }
-
-    .main-btn {
-      width: 100%;
-      border: none;
-      padding: 15px;
-      border-radius: 12px;
-      background: #2563eb;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 12px;
-    }
-
-    .main-btn:hover {
-      background: #1d4ed8;
-    }
-
-    .switch-btn {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      background: transparent;
-      color: #a9c4ff;
-      cursor: pointer;
-    }
-
-    #error {
-      color: #ff6b6b;
-      text-align: center;
-      margin-bottom: 15px;
-      font-size: 14px;
-    }
-
-
-    /* CHAT PAGE */
-
-    #chatPage {
-      display: none;
+      max-width: 600px;
       height: 100vh;
-      flex-direction: column;
-      background: #080b12;
-    }
-
-    .header {
-      height: 70px;
       background: #111827;
-      border-bottom: 1px solid #263044;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
+      flex-direction: column;
     }
 
-    .header-left h2 {
-      color: #4d8dff;
-      font-size: 21px;
-    }
-
-    .header-left p {
-      color: #8d98aa;
-      font-size: 12px;
-      margin-top: 3px;
-    }
-
-    .logout-btn {
-      border: none;
-      background: #dc2626;
-      color: white;
-      padding: 10px 14px;
-      border-radius: 10px;
-      cursor: pointer;
+    header {
+      background: #1d4ed8;
+      padding: 18px;
+      font-size: 22px;
       font-weight: bold;
+      text-align: center;
+    }
+
+    .status {
+      text-align: center;
+      font-size: 12px;
+      padding: 8px;
+      color: #94a3b8;
+      background: #0f172a;
     }
 
     #messages {
       flex: 1;
       overflow-y: auto;
-      padding: 20px 15px;
+      padding: 15px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-    }
-
-    .message {
-      max-width: 80%;
-      padding: 12px 15px;
-      border-radius: 16px;
-      background: #172033;
-      word-wrap: break-word;
-    }
-
-    .message.mine {
-      align-self: flex-end;
-      background: #2563eb;
-    }
-
-    .message-name {
-      font-size: 11px;
-      opacity: 0.7;
-      margin-bottom: 5px;
-    }
-
-    .message-text {
-      font-size: 15px;
-      line-height: 1.4;
-    }
-
-    .message-time {
-      font-size: 10px;
-      opacity: 0.6;
-      margin-top: 6px;
-      text-align: right;
-    }
-
-    .message-box {
-      padding: 12px;
-      background: #111827;
-      border-top: 1px solid #263044;
-      display: flex;
       gap: 10px;
     }
 
-    #messageInput {
+    .message {
+      background: #1e293b;
+      padding: 12px 15px;
+      border-radius: 12px;
+      max-width: 80%;
+      word-wrap: break-word;
+      align-self: flex-start;
+    }
+
+    .message-time {
+      display: block;
+      font-size: 10px;
+      color: #94a3b8;
+      margin-top: 5px;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      background: #0f172a;
+    }
+
+    input {
       flex: 1;
-      border: 1px solid #334155;
-      background: #080b12;
-      color: white;
-      border-radius: 25px;
-      padding: 14px 16px;
-      outline: none;
-      font-size: 16px;
-    }
-
-    #messageInput:focus {
-      border-color: #4d8dff;
-    }
-
-    #sendBtn {
       border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
+      outline: none;
+      padding: 14px;
+      border-radius: 25px;
+      font-size: 16px;
+      background: #1e293b;
+      color: white;
+    }
+
+    button {
+      border: none;
+      padding: 0 22px;
+      border-radius: 25px;
       background: #2563eb;
       color: white;
-      font-size: 20px;
+      font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
     }
 
-    .welcome {
-      text-align: center;
-      color: #718096;
-      margin-top: 30px;
+    button:active {
+      transform: scale(0.96);
     }
-
   </style>
 </head>
 
-
 <body>
 
+  <div class="app">
 
-  <!-- AUTH PAGE -->
+    <header>
+      CYBER NYZA CHAT
+    </header>
 
-  <div id="authPage">
-
-    <div class="auth-card">
-
-      <div class="logo">
-        <h1>CYBER NYZA</h1>
-        <p>Connect. Chat. Stay Secure.</p>
-      </div>
-
-      <div id="error"></div>
-
-      <input
-        type="email"
-        id="email"
-        placeholder="Email address"
-      >
-
-      <input
-        type="password"
-        id="password"
-        placeholder="Password"
-      >
-
-      <button
-        class="main-btn"
-        id="authBtn"
-      >
-        Login
-      </button>
-
-      <button
-        class="switch-btn"
-        id="switchBtn"
-      >
-        Create new account
-      </button>
-
+    <div class="status" id="status">
+      Connecting to Firebase...
     </div>
 
-  </div>
+    <div id="messages"></div>
 
-
-
-  <!-- CHAT PAGE -->
-
-  <div id="chatPage">
-
-    <div class="header">
-
-      <div class="header-left">
-        <h2>CYBER NYZA CHAT</h2>
-        <p id="userEmail">Connected</p>
-      </div>
-
-      <button
-        class="logout-btn"
-        id="logoutBtn"
-      >
-        Logout
-      </button>
-
-    </div>
-
-
-    <div id="messages">
-
-      <div class="welcome">
-        Welcome to CYBER NYZA Chat 👋
-      </div>
-
-    </div>
-
-
-    <div class="message-box">
-
+    <div class="input-area">
       <input
-        id="messageInput"
         type="text"
+        id="messageInput"
         placeholder="Type a message..."
       >
 
-      <button id="sendBtn">
-        ➤
+      <button onclick="sendMessage()">
+        Send
       </button>
-
     </div>
 
   </div>
 
-
-
-  <!-- FIREBASE -->
 
   <script type="module">
 
     import {
       initializeApp
-    } from
-    "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      signOut,
-      onAuthStateChanged
-    } from
-    "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
     import {
       getFirestore,
       collection,
       addDoc,
-      serverTimestamp,
       query,
       orderBy,
-      onSnapshot
-    } from
-    "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+      onSnapshot,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-
-    /* ====================================
-       PASTE YOUR FIREBASE CONFIG HERE
-       ==================================== */
+    // FIREBASE CONFIG
 
     const firebaseConfig = {
-
-      apiKey: "PASTE_API_KEY_HERE",
-
-      authDomain:
-        "PASTE_AUTH_DOMAIN_HERE",
-
-      projectId:
-        "PASTE_PROJECT_ID_HERE",
-
-      storageBucket:
-        "PASTE_STORAGE_BUCKET_HERE",
-
-      messagingSenderId:
-        "PASTE_MESSAGING_SENDER_ID_HERE",
-
-      appId:
-        "PASTE_APP_ID_HERE"
-
+      apiKey: "AIzaSyDG6dW07j-tfClCQ1o2B5GgyqBED1ZUx8s",
+      authDomain: "cyber-nyza-by-mrjingan-9d4c3.firebaseapp.com",
+      projectId: "cyber-nyza-by-mrjingan-9d4c3",
+      storageBucket: "cyber-nyza-by-mrjingan-9d4c3.firebasestorage.app",
+      messagingSenderId: "246846891948",
+      appId: "1:246846891948:web:7054c940ea7b9eefce3c09"
     };
 
 
+    // INITIALIZE FIREBASE
 
-    /* INITIALIZE */
+    const app = initializeApp(firebaseConfig);
 
-    const app =
-      initializeApp(firebaseConfig);
-
-    const auth =
-      getAuth(app);
-
-    const db =
-      getFirestore(app);
+    const db = getFirestore(app);
 
 
-
-    /* ELEMENTS */
-
-    const authPage =
-      document.getElementById("authPage");
-
-    const chatPage =
-      document.getElementById("chatPage");
-
-    const email =
-      document.getElementById("email");
-
-    const password =
-      document.getElementById("password");
-
-    const authBtn =
-      document.getElementById("authBtn");
-
-    const switchBtn =
-      document.getElementById("switchBtn");
-
-    const errorBox =
-      document.getElementById("error");
-
-    const messages =
+    const messagesDiv =
       document.getElementById("messages");
 
     const messageInput =
       document.getElementById("messageInput");
 
-    const sendBtn =
-      document.getElementById("sendBtn");
+    const status =
+      document.getElementById("status");
 
-    const logoutBtn =
-      document.getElementById("logoutBtn");
 
-    const userEmail =
-      document.getElementById("userEmail");
+    // SEND MESSAGE
 
-
-
-    let isLogin = true;
-
-
-
-    /* LOGIN / REGISTER MODE */
-
-    switchBtn.addEventListener(
-      "click",
-      () => {
-
-        isLogin = !isLogin;
-
-        errorBox.textContent = "";
-
-        if (isLogin) {
-
-          authBtn.textContent =
-            "Login";
-
-          switchBtn.textContent =
-            "Create new account";
-
-        } else {
-
-          authBtn.textContent =
-            "Create Account";
-
-          switchBtn.textContent =
-            "Already have an account? Login";
-
-        }
-
-      }
-    );
-
-
-
-    /* AUTHENTICATION */
-
-    authBtn.addEventListener(
-      "click",
-      async () => {
-
-        const userEmailValue =
-          email.value.trim();
-
-        const userPassword =
-          password.value.trim();
-
-
-        if (
-          !userEmailValue ||
-          !userPassword
-        ) {
-
-          errorBox.textContent =
-            "Please enter email and password";
-
-          return;
-
-        }
-
-
-        try {
-
-          errorBox.textContent =
-            "";
-
-          if (isLogin) {
-
-            await signInWithEmailAndPassword(
-              auth,
-              userEmailValue,
-              userPassword
-            );
-
-          } else {
-
-            await createUserWithEmailAndPassword(
-              auth,
-              userEmailValue,
-              userPassword
-            );
-
-          }
-
-
-        } catch (error) {
-
-          errorBox.textContent =
-            error.message;
-
-        }
-
-      }
-    );
-
-
-
-    /* LOGOUT */
-
-    logoutBtn.addEventListener(
-      "click",
-      async () => {
-
-        await signOut(auth);
-
-      }
-    );
-
-
-
-    /* AUTH STATE */
-
-    onAuthStateChanged(
-      auth,
-      (user) => {
-
-        if (user) {
-
-          authPage.style.display =
-            "none";
-
-          chatPage.style.display =
-            "flex";
-
-          userEmail.textContent =
-            user.email;
-
-          loadMessages();
-
-        } else {
-
-          authPage.style.display =
-            "flex";
-
-          chatPage.style.display =
-            "none";
-
-        }
-
-      }
-    );
-
-
-
-    /* SEND MESSAGE */
-
-    async function sendMessage() {
+    window.sendMessage = async function () {
 
       const text =
         messageInput.value.trim();
 
-      const user =
-        auth.currentUser;
-
-
-      if (
-        !text ||
-        !user
-      ) {
-        return;
-      }
-
+      if (!text) return;
 
       try {
 
         await addDoc(
-
-          collection(
-            db,
-            "messages"
-          ),
-
+          collection(db, "messages"),
           {
-
             text: text,
-
-            uid: user.uid,
-
-            email:
-              user.email,
-
-            createdAt:
-              serverTimestamp()
-
+            createdAt: serverTimestamp()
           }
-
         );
 
+        messageInput.value = "";
 
-        messageInput.value =
-          "";
+      }
 
+      catch (error) {
 
-      } catch (error) {
+        console.error(error);
 
         alert(
-          "Message failed: " +
-          error.message
+          "Message sending error. Check Firestore Rules."
         );
 
       }
 
-    }
+    };
 
 
-
-    sendBtn.addEventListener(
-      "click",
-      sendMessage
-    );
-
-
+    // ENTER KEY SEND
 
     messageInput.addEventListener(
-      "keydown",
-      (event) => {
+      "keypress",
+      function(event) {
 
-        if (
-          event.key === "Enter"
-        ) {
+        if (event.key === "Enter") {
 
           sendMessage();
 
@@ -682,135 +237,65 @@
     );
 
 
+    // LOAD MESSAGES LIVE
 
-    /* LOAD REAL-TIME MESSAGES */
+    const q = query(
+      collection(db, "messages"),
+      orderBy("createdAt", "asc")
+    );
 
-    function loadMessages() {
 
-      const messagesQuery =
-        query(
+    onSnapshot(
+      q,
 
-          collection(
-            db,
-            "messages"
-          ),
+      function(snapshot) {
 
-          orderBy(
-            "createdAt",
-            "asc"
-          )
+        messagesDiv.innerHTML = "";
 
+        snapshot.forEach(
+          function(doc) {
+
+            const data = doc.data();
+
+            const message =
+              document.createElement("div");
+
+            message.className =
+              "message";
+
+            const text =
+              document.createElement("div");
+
+            text.textContent =
+              data.text || "";
+
+            message.appendChild(text);
+
+            messagesDiv.appendChild(
+              message
+            );
+
+          }
         );
 
+        messagesDiv.scrollTop =
+          messagesDiv.scrollHeight;
 
-      onSnapshot(
-        messagesQuery,
+        status.textContent =
+          "Connected to Firebase 🟢";
 
-        (snapshot) => {
+      },
 
-          messages.innerHTML =
-            "";
+      function(error) {
 
+        console.error(error);
 
-          snapshot.forEach(
-            (doc) => {
+        status.textContent =
+          "Firebase connection error 🔴";
 
-              const data =
-                doc.data();
+      }
 
-
-              const messageDiv =
-                document.createElement(
-                  "div"
-                );
-
-
-              const currentUser =
-                auth.currentUser;
-
-
-              if (
-                currentUser &&
-                data.uid ===
-                currentUser.uid
-              ) {
-
-                messageDiv.classList.add(
-                  "mine"
-                );
-
-              }
-
-
-              messageDiv.classList.add(
-                "message"
-              );
-
-
-              let time =
-                "";
-
-              if (
-                data.createdAt
-              ) {
-
-                time =
-                  data.createdAt
-                    .toDate()
-                    .toLocaleTimeString();
-
-              }
-
-
-              messageDiv.innerHTML =
-
-                `
-                <div class="message-name">
-                  ${data.email || "User"}
-                </div>
-
-                <div class="message-text">
-                  ${escapeHtml(data.text)}
-                </div>
-
-                <div class="message-time">
-                  ${time}
-                </div>
-                `;
-
-
-              messages.appendChild(
-                messageDiv
-              );
-
-            }
-          );
-
-
-          messages.scrollTop =
-            messages.scrollHeight;
-
-        }
-
-      );
-
-    }
-
-
-
-    /* SECURITY */
-
-    function escapeHtml(text) {
-
-      const div =
-        document.createElement("div");
-
-      div.textContent =
-        text;
-
-      return div.innerHTML;
-
-    }
+    );
 
   </script>
 
